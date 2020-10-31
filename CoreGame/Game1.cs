@@ -10,15 +10,16 @@ namespace CraftEnd
   public class Game1 : Game
   {
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
     List<Entity> entities = new List<Entity>();
 
     public Game1()
     {
       _graphics = new GraphicsDeviceManager(this);
+      _graphics.PreferredBackBufferWidth = 800;
+      _graphics.PreferredBackBufferHeight = 800;
       Content.RootDirectory = "Content";
       IsMouseVisible = true;
-      entities.Add(new Player());
+      entities.Add(new Player { Position = new Vector2(0, 0) });
     }
 
     protected override void Initialize()
@@ -30,8 +31,7 @@ namespace CraftEnd
 
     protected override void LoadContent()
     {
-      _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+      Renderer.LoadContent(GraphicsDevice, _graphics, 8);
       entities.ForEach((Entity entity) => entity.LoadContent(Content));
     }
 
@@ -47,10 +47,7 @@ namespace CraftEnd
 
     protected override void Draw(GameTime gameTime)
     {
-      GraphicsDevice.Clear(Color.CornflowerBlue);
-
-      entities.ForEach((Entity entity) => entity.Draw(gameTime, _spriteBatch));
-
+      Renderer.Draw(gameTime);
       base.Draw(gameTime);
     }
   }

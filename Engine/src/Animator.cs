@@ -76,9 +76,13 @@ namespace CraftEnd.Engine
             currentSprite = this.CurrentAnimation.Sprites[this.spriteNumber];
         }
 
-        spriteBatch.Begin();
-        spriteBatch.Draw(currentSprite, this.Entity.Position, Color.White);
-        spriteBatch.End();
+        spriteBatch.Draw(currentSprite, new Rectangle{
+          X = (int)(this.Entity.Position.X * Renderer.PixelMetersMultiplier),
+          Y = (int)(this.Entity.Position.Y * Renderer.PixelMetersMultiplier),
+          Height = (int)(this.Entity.Scale.X * Renderer.PixelMetersMultiplier),
+          Width = (int)(this.Entity.Scale.Y * Renderer.PixelMetersMultiplier)
+
+        }, Color.White);
 
         if (this.hasAnimationChanged)
           this.hasAnimationChanged = false;

@@ -2,6 +2,7 @@ using CraftEnd.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace CraftEnd.CoreGame
 {
@@ -9,6 +10,7 @@ namespace CraftEnd.CoreGame
   {
     private SpriteSheet spriteSheet;
     private Animator animator;
+    private float speed = 1;
 
     public override void LoadContent(ContentManager content)
     {
@@ -23,6 +25,27 @@ namespace CraftEnd.CoreGame
       }, "idle");
 
       this.AddComponent(animator);
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+      int verticalMovement = 0;
+      int horizontalMovement = 0;
+
+      if(Keyboard.GetState().IsKeyDown(Keys.W)) 
+        verticalMovement -= 1;
+
+      if (Keyboard.GetState().IsKeyDown(Keys.S))
+        verticalMovement += 1;
+
+      if (Keyboard.GetState().IsKeyDown(Keys.A))
+        horizontalMovement -= 1;
+
+      if (Keyboard.GetState().IsKeyDown(Keys.D))
+        horizontalMovement += 1;
+
+      this.Position.X += (float)(horizontalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
+      this.Position.Y += (float)(verticalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
     }
   }
 }
