@@ -85,12 +85,28 @@ namespace CraftEnd.Engine
           }
         }
 
+        var height = (int)(this.Entity.Scale.X * renderer.PixelMetersMultiplier);
+        var width = (int)(this.Entity.Scale.Y * renderer.PixelMetersMultiplier);
+
+        if (subTexture.HasValue)
+          if (subTexture.Value.Height > subTexture.Value.Width)
+            width = width * subTexture.Value.Width / subTexture.Value.Height;
+          else
+            height = height * subTexture.Value.Width / subTexture.Value.Height;
+        else
+        {
+          if (currentSprite.Height > currentSprite.Width)
+            width = width * currentSprite.Height / currentSprite.Width;
+          else
+            height = height * currentSprite.Width / currentSprite.Height;
+        }
+
         spriteBatch.Draw(currentSprite, new Rectangle
         {
           X = (int)(this.Entity.Position.X * renderer.PixelMetersMultiplier),
           Y = (int)(this.Entity.Position.Y * renderer.PixelMetersMultiplier),
-          Height = (int)(this.Entity.Scale.X * renderer.PixelMetersMultiplier),
-          Width = (int)(this.Entity.Scale.Y * renderer.PixelMetersMultiplier)
+          Height = height,
+          Width = width
         },
         subTexture, Color.White, 0, new Vector2(0, 0),
         this.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
