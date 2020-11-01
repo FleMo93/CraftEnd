@@ -5,7 +5,7 @@ namespace CraftEnd.Engine
 {
   public static class Renderer
   {
-    public static float PixelMetersMultiplier { get; } = 100;
+    public static float PixelMetersMultiplier { get; } = short.MaxValue;
     private static float _targetHeight = 1;
     private static Matrix scaleMatrix;
 
@@ -20,7 +20,7 @@ namespace CraftEnd.Engine
         _targetHeight = value;
         var ratio = (float)_graphicsDeviceManager.PreferredBackBufferWidth / (float)_graphicsDeviceManager.PreferredBackBufferHeight;
         var scaleY = (float)_graphicsDeviceManager.PreferredBackBufferHeight / PixelMetersMultiplier / value;
-        var scaleX = (float)_graphicsDeviceManager.PreferredBackBufferWidth / PixelMetersMultiplier / value * ratio;
+        var scaleX = (float)_graphicsDeviceManager.PreferredBackBufferWidth / PixelMetersMultiplier / value / ratio;
         scaleMatrix = Matrix.CreateScale(scaleX, scaleY, 1);
       }
     }
@@ -39,8 +39,6 @@ namespace CraftEnd.Engine
     public static void Draw(GameTime gameTime)
     {
       _graphicsDevice.Clear(Color.CornflowerBlue);
-
-
       _spriteBatch.Begin(transformMatrix: scaleMatrix);
 
       Entity.Entities.ForEach(e => e.Draw(gameTime, _spriteBatch));
