@@ -10,7 +10,8 @@ namespace CraftEnd
   public class Game1 : Game
   {
     private GraphicsDeviceManager _graphics;
-    List<Entity> entities = new List<Entity>();
+    private List<Entity> entities = new List<Entity>();
+    private Player player;
 
     public Game1()
     {
@@ -20,7 +21,8 @@ namespace CraftEnd
       Content.RootDirectory = "Content";
       IsMouseVisible = true;
 
-      entities.Add(new Player { Position = new Vector2(0, 0) });
+      this.player = new Player();
+      entities.Add(this.player);
     }
 
     protected override void Initialize()
@@ -38,6 +40,10 @@ namespace CraftEnd
         entity.LoadContent(Content);
         renderLayer.AddEntity(entity);
       });
+
+      var tileSetLoader = new DungenonTilesetII0x72Loader();
+      tileSetLoader.LoadContent(Content);
+      this.player.LoadContent(tileSetLoader);
     }
 
     protected override void Update(GameTime gameTime)

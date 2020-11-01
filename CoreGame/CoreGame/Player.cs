@@ -8,20 +8,15 @@ namespace CraftEnd.CoreGame
 {
   public class Player : Entity
   {
-    private SpriteSheet spriteSheet;
     private Animator animator;
     private float speed = 1;
 
-    public override void LoadContent(ContentManager content)
+    public void LoadContent(DungenonTilesetII0x72Loader content)
     {
-      this.spriteSheet = new SpriteSheet(content.Load<Texture2D>("HeroKnight/HeroKnight"), 9, 10);
-
       this.animator = new Animator(new[] {
-        new Animation("idle", this.spriteSheet.SpritesByRow[0..7]),
-        new Animation("run", this.spriteSheet.SpritesByRow[8..17]),
-        new Animation("attack1", this.spriteSheet.SpritesByRow[18..23]),
-        new Animation("attack2", this.spriteSheet.SpritesByRow[24..29]),
-        new Animation("attack3", this.spriteSheet.SpritesByRow[30..37]),
+        new Animation("idle", content.Texture, content.TryGetSpriteCoordinates("knight_m_idle_anim")),
+        new Animation("run", content.Texture, content.TryGetSpriteCoordinates("knight_m_run_anim")),
+        new Animation("hit", content.Texture, content.TryGetSpriteCoordinates("knight_m_hit_anim"))
       }, "idle");
 
       this.AddComponent(animator);
@@ -32,7 +27,7 @@ namespace CraftEnd.CoreGame
       int verticalMovement = 0;
       int horizontalMovement = 0;
 
-      if(Keyboard.GetState().IsKeyDown(Keys.W)) 
+      if (Keyboard.GetState().IsKeyDown(Keys.W))
         verticalMovement -= 1;
 
       if (Keyboard.GetState().IsKeyDown(Keys.S))

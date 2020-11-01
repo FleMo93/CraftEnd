@@ -14,8 +14,6 @@ namespace CraftEnd.Engine
       private bool hasAnimationChanged = false;
       private double spriteTime = 0;
       private int spriteNumber = 0;
-      private SpriteEffect spriteEffect;
-
       private Dictionary<string, Animation> animations;
 
       public Animator(Animation[] animations)
@@ -52,12 +50,15 @@ namespace CraftEnd.Engine
       internal override void Draw(GameTime gameTime, RenderLayer renderer, SpriteBatch spriteBatch)
       {
         Texture2D currentSprite;
+        Rectangle? subTexture = null;
 
         if (this.hasAnimationChanged)
         {
           this.spriteTime = 0;
           this.spriteNumber = 0;
-          currentSprite = this.CurrentAnimation.Sprites[0];
+          var spriteInfo = this.CurrentAnimation.GetSpriteInfo(0);
+          currentSprite = spriteInfo.Item1;
+          subTexture = spriteInfo.Item2;
         }
         else
         {
@@ -67,15 +68,21 @@ namespace CraftEnd.Engine
             var nextSpriteNumber = this.spriteNumber + (int)(this.spriteTime / this.CurrentAnimation.SpriteTime);
 
             if (nextSpriteNumber > 0)
-              nextSpriteNumber = nextSpriteNumber % this.CurrentAnimation.Sprites.Length;
+              nextSpriteNumber = nextSpriteNumber % this.CurrentAnimation.NumberOfSprites;
 
-            currentSprite = this.CurrentAnimation.Sprites[nextSpriteNumber];
+            var spriteInfo = this.CurrentAnimation.GetSpriteInfo(nextSpriteNumber);
+            currentSprite = spriteInfo.Item1;
+            subTexture = spriteInfo.Item2;
             prevNumber = nextSpriteNumber;
             this.spriteTime = this.spriteTime % this.CurrentAnimation.SpriteTime;
             this.spriteNumber = nextSpriteNumber;
           }
           else
-            currentSprite = this.CurrentAnimation.Sprites[this.spriteNumber];
+          {
+            var spriteInfo = this.CurrentAnimation.GetSpriteInfo(this.spriteNumber);
+            currentSprite = spriteInfo.Item1;
+            subTexture = spriteInfo.Item2;
+          }
         }
 
         spriteBatch.Draw(currentSprite, new Rectangle
@@ -85,7 +92,7 @@ namespace CraftEnd.Engine
           Height = (int)(this.Entity.Scale.X * renderer.PixelMetersMultiplier),
           Width = (int)(this.Entity.Scale.Y * renderer.PixelMetersMultiplier)
         },
-        null, Color.White, 0, new Vector2(0, 0),
+        subTexture, Color.White, 0, new Vector2(0, 0),
         this.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
         1);
 

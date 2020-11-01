@@ -13,14 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Arial.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Arial.spritefont
-
-#begin HeroKnight/HeroKnight.png
+#begin 0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -30,5 +23,15 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:HeroKnight/HeroKnight.png
+/build:0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png
+
+#begin 0x72_DungeonTilesetII_v1.3.1/tiles_list_v1.3
+/copy:0x72_DungeonTilesetII_v1.3.1/tiles_list_v1.3
+
+#begin Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial.spritefont
 

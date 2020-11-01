@@ -2,5 +2,5 @@
 Assets will not be included in this repository
 
 #### Used Assets
-Hero Knight by Sven: https://sventhole.itch.io/hero-knight  
-  * Download the .zip file and extract the HeroKnight directory containing the sprites in this directory
+Dungeon Tileset II: https://0x72.itch.io/dungeontileset-ii
+  * Download the .zip file and extract the 0x72_DungeonTilesetII_v1.3.1 directory to the content directory
