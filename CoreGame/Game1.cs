@@ -19,6 +19,7 @@ namespace CraftEnd
       _graphics.PreferredBackBufferHeight = 800;
       Content.RootDirectory = "Content";
       IsMouseVisible = true;
+
       entities.Add(new Player { Position = new Vector2(0, 0) });
     }
 
@@ -31,8 +32,12 @@ namespace CraftEnd
 
     protected override void LoadContent()
     {
-      Renderer.LoadContent(GraphicsDevice, _graphics, 8, Content.Load<SpriteFont>("Arial"));
-      entities.ForEach((Entity entity) => entity.LoadContent(Content));
+      Renderer.LoadContent(GraphicsDevice, _graphics, Content.Load<SpriteFont>("Arial"));
+      var renderLayer = Renderer.CreateRenderLayer(10);
+      entities.ForEach((Entity entity) => {
+        entity.LoadContent(Content);
+        renderLayer.AddEntity(entity);
+      });
     }
 
     protected override void Update(GameTime gameTime)

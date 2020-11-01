@@ -10,9 +10,11 @@ namespace CraftEnd.Engine
     {
       public string CurrentAnimationName { get; private set; }
       public Animation CurrentAnimation { get { return this.animations[this.CurrentAnimationName]; } }
+      public bool FlipHorizontal { get; set; } = false;
       private bool hasAnimationChanged = false;
       private double spriteTime = 0;
       private int spriteNumber = 0;
+      private SpriteEffect spriteEffect;
 
       private Dictionary<string, Animation> animations;
 
@@ -47,7 +49,7 @@ namespace CraftEnd.Engine
         this.hasAnimationChanged = true;
       }
       int prevNumber = -1;
-      internal override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+      internal override void Draw(GameTime gameTime, RenderLayer renderer, SpriteBatch spriteBatch)
       {
         Texture2D currentSprite;
 
@@ -76,13 +78,16 @@ namespace CraftEnd.Engine
             currentSprite = this.CurrentAnimation.Sprites[this.spriteNumber];
         }
 
-        spriteBatch.Draw(currentSprite, new Rectangle{
-          X = (int)(this.Entity.Position.X * Renderer.PixelMetersMultiplier),
-          Y = (int)(this.Entity.Position.Y * Renderer.PixelMetersMultiplier),
-          Height = (int)(this.Entity.Scale.X * Renderer.PixelMetersMultiplier),
-          Width = (int)(this.Entity.Scale.Y * Renderer.PixelMetersMultiplier)
-
-        }, Color.White);
+        spriteBatch.Draw(currentSprite, new Rectangle
+        {
+          X = (int)(this.Entity.Position.X * renderer.PixelMetersMultiplier),
+          Y = (int)(this.Entity.Position.Y * renderer.PixelMetersMultiplier),
+          Height = (int)(this.Entity.Scale.X * renderer.PixelMetersMultiplier),
+          Width = (int)(this.Entity.Scale.Y * renderer.PixelMetersMultiplier)
+        },
+        null, Color.White, 0, new Vector2(0, 0),
+        this.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+        1);
 
         if (this.hasAnimationChanged)
           this.hasAnimationChanged = false;

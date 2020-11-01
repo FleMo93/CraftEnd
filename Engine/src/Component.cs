@@ -15,6 +15,6 @@ namespace CraftEnd.Engine
       this.Entity = entity;
     }
 
-    internal virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) { }
+    internal virtual void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch) { }
   }
 }

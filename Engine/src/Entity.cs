@@ -21,9 +21,9 @@ namespace CraftEnd.Engine
     public virtual void Initialize() { }
     public virtual void LoadContent(ContentManager content) { }
     public virtual void Update(GameTime gameTime) { }
-    internal virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+    internal virtual void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch)
     {
-      this.components.ForEach(component => component.Draw(gameTime, spriteBatch));
+      this.components.ForEach(component => component.Draw(gameTime, renderLayer, spriteBatch));
     }
 
     public virtual void AddComponent(Component component)

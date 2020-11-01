@@ -46,6 +46,16 @@ namespace CraftEnd.CoreGame
 
       this.Position.X += (float)(horizontalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
       this.Position.Y += (float)(verticalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
+
+      if (verticalMovement != 0 || horizontalMovement != 0 && this.animator.CurrentAnimationName != "run")
+        this.animator.SetAnimation("run");
+      else if (verticalMovement == 0 && horizontalMovement == 0 && this.animator.CurrentAnimationName != "idle")
+        this.animator.SetAnimation("idle");
+
+      if (horizontalMovement > 0)
+        this.animator.FlipHorizontal = false;
+      else if (horizontalMovement < 0)
+        this.animator.FlipHorizontal = true;
     }
   }
 }
