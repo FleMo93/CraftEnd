@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial.spritefont
+
 #begin HeroKnight/HeroKnight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -24,11 +31,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HeroKnight/HeroKnight.png
-
-#begin RobotoRegular.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:RobotoRegular.spritefont
 

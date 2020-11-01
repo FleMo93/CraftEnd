@@ -31,7 +31,7 @@ namespace CraftEnd
 
     protected override void LoadContent()
     {
-      Renderer.LoadContent(GraphicsDevice, _graphics, 8);
+      Renderer.LoadContent(GraphicsDevice, _graphics, 8, Content.Load<SpriteFont>("Arial"));
       entities.ForEach((Entity entity) => entity.LoadContent(Content));
     }
 

@@ -24,16 +24,21 @@ namespace CraftEnd.Engine
         scaleMatrix = Matrix.CreateScale(scaleX, scaleY, 1);
       }
     }
+    public static bool ShowDebug { get; set; } = false;
 
     private static SpriteBatch _spriteBatch;
     private static GraphicsDevice _graphicsDevice;
     private static GraphicsDeviceManager _graphicsDeviceManager;
-    public static void LoadContent(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, float targetHeight)
+    private static SpriteFont _debugFont;
+
+    public static void LoadContent(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, float targetHeight, SpriteFont debugFont)
     {
       _graphicsDevice = graphicsDevice;
       _graphicsDeviceManager = graphicsDeviceManager;
       _spriteBatch = new SpriteBatch(graphicsDevice);
       TargetHeight = targetHeight;
+      _debugFont = debugFont;
+      
     }
 
     public static void Draw(GameTime gameTime)
@@ -42,6 +47,10 @@ namespace CraftEnd.Engine
       _spriteBatch.Begin(transformMatrix: scaleMatrix);
 
       Entity.Entities.ForEach(e => e.Draw(gameTime, _spriteBatch));
+
+      if (ShowDebug)
+        _spriteBatch.DrawString(_debugFont, "Frametime: " + gameTime.ElapsedGameTime.TotalSeconds, new Vector2(1, 1), Color.White, 0, new Vector2(0, 0), 400, new SpriteEffects(), 1);
+
       _spriteBatch.End();
     }
   }
