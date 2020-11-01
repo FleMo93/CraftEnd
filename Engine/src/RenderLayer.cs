@@ -41,7 +41,7 @@ namespace CraftEnd.Engine
 
     internal void Draw(GameTime gameTime)
     {
-      _spriteBatch.Begin(transformMatrix: scaleMatrix);
+      _spriteBatch.Begin(transformMatrix: scaleMatrix, samplerState: SamplerState.PointClamp);
       this._entities.ForEach(e => e.Draw(gameTime, this, _spriteBatch));
       _spriteBatch.End();
     }
