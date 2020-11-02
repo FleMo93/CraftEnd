@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CraftEnd
+namespace CraftEnd.CoreGame.Content.Loader
 {
   public class DungenonTilesetII0x72Loader
   {
@@ -20,9 +20,7 @@ namespace CraftEnd
 
     public void LoadContent(ContentManager contentManager)
     {
-      var tileList = System.IO.File.ReadAllText(
-        Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) +
-        "/Content/0x72_DungeonTilesetII_v1.3.1/tiles_list_v1.3");
+      var tileList = System.IO.File.ReadAllText(Content.FilePath0x72DungeonTilesetSpriteSheetList);
 
       foreach (var line in tileList.Split('\n'))
       {
@@ -58,7 +56,7 @@ namespace CraftEnd
         }
       }
 
-      this.Texture = contentManager.Load<Texture2D>("0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3");
+      this.Texture = contentManager.Load<Texture2D>(Content.Texture2D0x72DungeonTilesetSpriteSheet);
     }
 
     public Rectangle[] TryGetSpriteCoordinates(string sprite)

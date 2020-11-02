@@ -35,3 +35,9 @@
 /processorParam:TextureFormat=Compressed
 /build:Arial.spritefont
 
+#begin Level/Dev.tmx
+/copy:Level/Dev.tmx
+
+#begin Tiled/0x72_DungeonTilesetII_v1.3.tsx
+/copy:Tiled/0x72_DungeonTilesetII_v1.3.tsx
+

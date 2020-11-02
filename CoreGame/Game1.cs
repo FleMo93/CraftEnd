@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CraftEnd.CoreGame;
+using CraftEnd.CoreGame.Content.Loader;
 using CraftEnd.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,9 +42,13 @@ namespace CraftEnd
         renderLayer.AddEntity(entity);
       });
 
-      var tileSetLoader = new DungenonTilesetII0x72Loader();
-      tileSetLoader.LoadContent(Content);
-      this.player.LoadContent(tileSetLoader);
+      
+      var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
+      var devLevel = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
+
+      var dungeonTileSet0x72Loader = new DungenonTilesetII0x72Loader();
+      dungeonTileSet0x72Loader.LoadContent(Content);
+      this.player.LoadContent(dungeonTileSet0x72Loader);
     }
 
     protected override void Update(GameTime gameTime)
