@@ -15,10 +15,12 @@ namespace CraftEnd.Engine
       private double spriteTime = 0;
       private int spriteNumber = 0;
       private Dictionary<string, Animation> animations;
+      private Vector2? offset;
 
-      public Animator(Animation[] animations)
+      public Animator(Animation[] animations, Vector2? offset = null)
       {
         this.animations = new Dictionary<string, Animation>();
+        this.offset = offset;
 
         foreach (var animation in animations)
         {
@@ -31,7 +33,7 @@ namespace CraftEnd.Engine
         if (animations.Length > 0)
           this.CurrentAnimationName = animations[0].Name;
       }
-      public Animator(Animation[] animations, string startAnimation) : this(animations)
+      public Animator(Animation[] animations, string startAnimation, Vector2? offset = null) : this(animations, offset)
       {
         this.CurrentAnimationName = startAnimation;
       }
@@ -47,7 +49,7 @@ namespace CraftEnd.Engine
         this.hasAnimationChanged = true;
       }
       int prevNumber = -1;
-      internal override void Draw(GameTime gameTime, RenderLayer renderer, SpriteBatch spriteBatch)
+      internal override void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch)
       {
         Texture2D currentSprite;
         Rectangle? subTexture = null;
@@ -85,8 +87,8 @@ namespace CraftEnd.Engine
           }
         }
 
-        var height = (int)(this.Entity.Scale.Y * renderer.PixelMetersMultiplier);
-        var width = (int)(this.Entity.Scale.X * renderer.PixelMetersMultiplier);
+        var height = (int)(this.Entity.Scale.Y * renderLayer.PixelMetersMultiplier);
+        var width = (int)(this.Entity.Scale.X * renderLayer.PixelMetersMultiplier);
 
         if (subTexture.HasValue)
           if (subTexture.Value.Height > subTexture.Value.Width)
@@ -103,13 +105,13 @@ namespace CraftEnd.Engine
 
         spriteBatch.Draw(currentSprite, new Rectangle
         {
-          X = (int)(this.Entity.Position.X * renderer.PixelMetersMultiplier),
-          Y = (int)(this.Entity.Position.Y * renderer.PixelMetersMultiplier),
+          X = (int)(this.Entity.Position.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X + (this.offset.HasValue ? this.offset.Value.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X : 0)),
+          Y = (int)(this.Entity.Position.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y + (this.offset.HasValue ? this.offset.Value.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y : 0)),
           Height = height,
           Width = width
         },
-        subTexture, Color.White, 0, new Vector2(0, 0),
-        this.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+          subTexture, Color.White, 0, new Vector2(0, 0),
+          this.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
         1);
 
         if (this.hasAnimationChanged)

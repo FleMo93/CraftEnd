@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CraftEnd.CoreGame.Content.Loader
@@ -109,14 +110,56 @@ namespace CraftEnd.CoreGame.Content.Loader
 
   }
 
+  public class MapTile
+  {
+    public TilesetTile TilesetTile { get; private set; }
+    public Vector2 Position { get; private set; }
+
+    public MapTile(TilesetTile tile, Vector2 position)
+    {
+      this.TilesetTile = tile;
+      this.Position = position;
+    }
+  }
+
   public class TiledMap
   {
-    public Dictionary<string, Texture2D[][]> layer;
+    public Dictionary<string, List<MapTile>> Layers;
+    public Texture2D TextureAtlas { get; private set; }
     public TiledMap(string tmxFilePath, TiledTileset tileset)
     {
+      this.Layers = new Dictionary<string, List<MapTile>>();
+      this.TextureAtlas = tileset.TextureAtlas;
       var xmlStream = System.IO.File.OpenRead(tmxFilePath);
       var serializer = new System.Xml.Serialization.XmlSerializer(typeof(TiledTmx.Map));
       var tiledTmx = (TiledTmx.Map)serializer.Deserialize(xmlStream);
+
+      tiledTmx.Layer.ForEach(layer =>
+      {
+        var currentLayer = new List<MapTile>();
+        Layers.Add(layer.Name, currentLayer);
+
+        layer.Data.Chunk.ForEach(chunk =>
+        {
+          var tileIds = chunk.Text.Replace("\n", null).Split(',');
+          int chunkWidth = int.Parse(chunk.Width, System.Globalization.NumberStyles.Integer);
+          int chunkHeight = int.Parse(chunk.Height, System.Globalization.NumberStyles.Integer);
+          var yStart = int.Parse(chunk.Y, System.Globalization.NumberStyles.Integer);
+          var counter = 0;
+
+          for (int y = yStart; y < yStart + chunkHeight; y++)
+          {
+            var xStart = int.Parse(chunk.X, System.Globalization.NumberStyles.Integer);
+            for (int x = xStart; x < xStart + chunkWidth; x++)
+            {
+              var tileId = int.Parse(tileIds[counter++], System.Globalization.NumberStyles.Integer) - 1;
+              if (tileId == -1)
+                continue;
+              currentLayer.Add(new MapTile(tileset.Tiles[tileId.ToString()], new Vector2(x, y)));
+            }
+          }
+        });
+      });
     }
   }
 }

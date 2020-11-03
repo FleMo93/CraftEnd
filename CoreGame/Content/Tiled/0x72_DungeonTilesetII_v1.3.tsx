@@ -8,6 +8,7 @@
   <animation>
    <frame tileid="37" duration="100"/>
    <frame tileid="38" duration="100"/>
+   <frame tileid="37" duration="100"/>
   </animation>
  </tile>
  <tile id="37">

@@ -23,6 +23,7 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
+      this.player.Scale = new Vector2(2, 2);
       entities.Add(this.player);
     }
 
@@ -36,15 +37,17 @@ namespace CraftEnd
     protected override void LoadContent()
     {
       Renderer.LoadContent(GraphicsDevice, _graphics, Content.Load<SpriteFont>("Arial"));
-      var renderLayer = Renderer.CreateRenderLayer(10);
-      entities.ForEach((Entity entity) => {
+      var renderLayer = Renderer.CreateRenderLayer(25);
+      var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
+      var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
+      var devLevel = new Level(devLevelMap);
+      this.entities.Insert(0, devLevel);
+
+      entities.ForEach((Entity entity) =>
+      {
         entity.LoadContent(Content);
         renderLayer.AddEntity(entity);
       });
-
-      
-      var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
-      var devLevel = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
 
       var dungeonTileSet0x72Loader = new DungenonTilesetII0x72Loader();
       dungeonTileSet0x72Loader.LoadContent(Content);
