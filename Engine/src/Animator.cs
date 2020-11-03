@@ -85,8 +85,8 @@ namespace CraftEnd.Engine
           }
         }
 
-        var height = (int)(this.Entity.Scale.X * renderer.PixelMetersMultiplier);
-        var width = (int)(this.Entity.Scale.Y * renderer.PixelMetersMultiplier);
+        var height = (int)(this.Entity.Scale.Y * renderer.PixelMetersMultiplier);
+        var width = (int)(this.Entity.Scale.X * renderer.PixelMetersMultiplier);
 
         if (subTexture.HasValue)
           if (subTexture.Value.Height > subTexture.Value.Width)
