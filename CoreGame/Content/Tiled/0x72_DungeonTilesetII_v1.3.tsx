@@ -5,75 +5,42 @@
  </properties>
  <image source="../0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png" width="512" height="512"/>
  <tile id="36">
-  <properties>
-   <property name="animationIndex" value="0"/>
-   <property name="animationName" value="wall_fountain_mid_red_anim"/>
-  </properties>
+  <animation>
+   <frame tileid="37" duration="100"/>
+   <frame tileid="38" duration="100"/>
+  </animation>
  </tile>
  <tile id="37">
-  <properties>
-   <property name="animationIndex" value="1"/>
-   <property name="animationName" value="wall_fountain_mid_red_anim"/>
-  </properties>
- </tile>
- <tile id="38">
-  <properties>
-   <property name="animationIndex" value="2"/>
-   <property name="animationName" value="wall_fountain_mid_red_anim"/>
-  </properties>
+  <animation>
+   <frame tileid="38" duration="100"/>
+   <frame tileid="36" duration="100"/>
+  </animation>
  </tile>
  <tile id="68">
-  <properties>
-   <property name="animationIndex" value="0"/>
-   <property name="animationName" value="wall_fountain_basin_red_anim"/>
-  </properties>
- </tile>
- <tile id="69">
-  <properties>
-   <property name="animationIndex" value="1"/>
-   <property name="animationName" value="wall_fountain_basin_red_anim"/>
-  </properties>
- </tile>
- <tile id="70">
-  <properties>
-   <property name="animationIndex" value="2"/>
-   <property name="animationName" value="wall_fountain_basin_red_anim"/>
-  </properties>
+  <animation>
+   <frame tileid="69" duration="100"/>
+   <frame tileid="70" duration="100"/>
+  </animation>
  </tile>
  <tile id="100">
-  <properties>
-   <property name="animationIndex" value="0"/>
-   <property name="animationName" value="wall_fountain_mid_blue_anim"/>
-  </properties>
- </tile>
- <tile id="101">
-  <properties>
-   <property name="animationIndex" value="1"/>
-   <property name="animationName" value="wall_fountain_mid_blue_anim"/>
-  </properties>
- </tile>
- <tile id="102">
-  <properties>
-   <property name="animationIndex" value="2"/>
-   <property name="animationName" value="wall_fountain_mid_blue_anim"/>
-  </properties>
+  <animation>
+   <frame tileid="101" duration="100"/>
+   <frame tileid="102" duration="100"/>
+  </animation>
  </tile>
  <tile id="132">
-  <properties>
-   <property name="animationIndex" value="0"/>
-   <property name="animationName" value="wall_fountain_basin_blue_anim"/>
-  </properties>
+  <animation>
+   <frame tileid="133" duration="100"/>
+   <frame tileid="134" duration="100"/>
+  </animation>
  </tile>
- <tile id="133">
-  <properties>
-   <property name="animationIndex" value="1"/>
-   <property name="animationName" value="wall_fountain_basin_blue_anim"/>
-  </properties>
- </tile>
- <tile id="134">
-  <properties>
-   <property name="animationIndex" value="2"/>
-   <property name="animationName" value="wall_fountain_basin_blue_anim"/>
-  </properties>
+ <tile id="353">
+  <animation>
+   <frame tileid="354" duration="100"/>
+   <frame tileid="355" duration="100"/>
+   <frame tileid="356" duration="100"/>
+   <frame tileid="355" duration="100"/>
+   <frame tileid="354" duration="100"/>
+  </animation>
  </tile>
 </tileset>

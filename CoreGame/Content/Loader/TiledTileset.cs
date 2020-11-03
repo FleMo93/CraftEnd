@@ -9,6 +9,22 @@ namespace CraftEnd.CoreGame.Content.Loader
 {
   public class TiledTsx
   {
+    [XmlRoot(ElementName = "animation")]
+    public class Animation
+    {
+      [XmlElement(ElementName = "frame")]
+      public List<Frame> Frame { get; set; }
+    }
+
+    [XmlRoot(ElementName = "frame")]
+    public class Frame
+    {
+      [XmlAttribute(AttributeName = "duration")]
+      public string Duration { get; set; }
+      [XmlAttribute(AttributeName = "tileid")]
+      public string Tileid { get; set; }
+    }
+
     [XmlRoot(ElementName = "image")]
     public class Image
     {
@@ -39,6 +55,8 @@ namespace CraftEnd.CoreGame.Content.Loader
     [XmlRoot(ElementName = "tile")]
     public class Tile
     {
+      [XmlElement(ElementName = "animation")]
+      public Animation Animation { get; set; }
       [XmlAttribute(AttributeName = "id")]
       public string Id { get; set; }
       [XmlElement(ElementName = "properties")]
@@ -71,20 +89,29 @@ namespace CraftEnd.CoreGame.Content.Loader
     }
   }
 
+  public class TilesetTileAnimation
+  {
+    public TilesetTile TilesetTile { get; private set; }
+    public int AnimationDuration { get; private set; }
+
+    public TilesetTileAnimation(TilesetTile tilesetTile, int animationDuration)
+    {
+      this.TilesetTile = tilesetTile;
+      this.AnimationDuration = animationDuration;
+    }
+  }
+
   public class TilesetTile
   {
     public string Id { get; private set; }
-    public bool IsAnimated { get; private set; }
-    public int? AnimationIndex { get; private set; }
-    public List<string> AnimationIdList { get; private set; }
+    public bool IsAnimated { get { return this.AnimationList.Count > 0; } }
+    public List<TilesetTileAnimation> AnimationList { get; private set; }
     public Rectangle Rectangle { get; private set; }
 
-    public TilesetTile(string id, Rectangle rectangle, bool isAnimated, int? animationIndex, List<string> animationIdList)
+    public TilesetTile(string id, Rectangle rectangle, List<TilesetTileAnimation> animationIdList)
     {
       this.Id = id;
-      this.IsAnimated = isAnimated;
-      this.AnimationIndex = animationIndex;
-      this.AnimationIdList = animationIdList;
+      this.AnimationList = animationIdList;
       this.Rectangle = rectangle;
     }
   }
@@ -111,45 +138,26 @@ namespace CraftEnd.CoreGame.Content.Loader
       var rows = int.Parse(tiledTsx.Tilecount, System.Globalization.NumberStyles.Integer) / columns;
       var tileWidth = int.Parse(tiledTsx.Tilewidth, System.Globalization.NumberStyles.Integer);
       var tileHeight = int.Parse(tiledTsx.Tileheight, System.Globalization.NumberStyles.Integer);
-      Dictionary<string, List<string>> animationIdsByName = new Dictionary<string, List<string>>();
+      Dictionary<string, List<TilesetTileAnimation>> animationListById = new Dictionary<string, List<TilesetTileAnimation>>();
 
       for (int y = 0; y < rows; y++)
         for (int x = 0; x < columns; x++)
         {
           var id = y * columns + x;
-          string animationName = null;
-          int? animationIndex = null;
-          var specialTile = tiledTsx.Tile.Find(t => t.Id == id.ToString());
-
-          if (specialTile != null)
-          {
-            var animationNameProperty = specialTile.Properties.Property.Find(p => p.Name == "animationName");
-
-            if (animationNameProperty != null)
-            {
-              var animationIndexProperty = specialTile.Properties.Property.Find(p => p.Name == "animationIndex");
-
-              if (animationIndexProperty == null)
-                throw new System.NullReferenceException("Mission animationIndex property on tile id: " + specialTile.Id);
-
-              animationName = animationNameProperty.Value;
-              animationIndex = int.Parse(animationIndexProperty.Value, System.Globalization.NumberStyles.Integer);
-
-              if (!animationIdsByName.ContainsKey(animationName))
-                animationIdsByName.Add(animationName, new List<string>());
-
-              animationIdsByName[animationName].Insert((int)animationIndex, id.ToString());
-            }
-          }
+          animationListById.Add(id.ToString(), new List<TilesetTileAnimation>());
 
           Tiles.Add(id.ToString(), new TilesetTile(
             id.ToString(),
             new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight),
-            animationIndex != null,
-            animationIndex,
-            animationName != null ? animationIdsByName[animationName] : null
+            animationListById[id.ToString()]
           ));
         }
+
+      foreach (var specialTile in tiledTsx.Tile)
+        specialTile.Animation.Frame.ForEach(f => animationListById[specialTile.Id].Add(
+          new TilesetTileAnimation(
+            Tiles[f.Tileid],
+            int.Parse(f.Duration, System.Globalization.NumberStyles.Integer))));
     }
   }
 }
