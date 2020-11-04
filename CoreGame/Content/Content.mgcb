@@ -38,6 +38,18 @@
 #begin Level/Dev.tmx
 /copy:Level/Dev.tmx
 
+#begin MyContent/CharacterShadow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MyContent/CharacterShadow.png
+
 #begin Tiled/0x72_DungeonTilesetII_v1.3.tsx
 /copy:Tiled/0x72_DungeonTilesetII_v1.3.tsx
 

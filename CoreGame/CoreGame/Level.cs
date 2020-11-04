@@ -23,10 +23,9 @@ namespace CraftEnd.CoreGame
               .Concat(sprite.TilesetTile.AnimationList.Select(a => a.TilesetTile.Rectangle))
               .ToArray();
 
-
             var animator = new Animator(new Animation[] {
-              new Animation("a", map.TextureAtlas, rectangles)
-            }, "a", sprite.Position);
+              new Animation("default", map.TextureAtlas, rectangles)
+            }, "default", sprite.Position);
 
             AddComponent(animator);
           }

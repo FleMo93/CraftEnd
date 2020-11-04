@@ -23,7 +23,6 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
-      this.player.Scale = new Vector2(2, 2);
       entities.Add(this.player);
     }
 
@@ -51,7 +50,8 @@ namespace CraftEnd
 
       var dungeonTileSet0x72Loader = new DungenonTilesetII0x72Loader();
       dungeonTileSet0x72Loader.LoadContent(Content);
-      this.player.LoadContent(dungeonTileSet0x72Loader);
+      var characterShadow = Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCharacterShadow);
+      this.player.LoadContent(dungeonTileSet0x72Loader, characterShadow);
     }
 
     protected override void Update(GameTime gameTime)

@@ -1,6 +1,7 @@
 using CraftEnd.CoreGame.Content.Loader;
 using CraftEnd.Engine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace CraftEnd.CoreGame
@@ -10,15 +11,17 @@ namespace CraftEnd.CoreGame
     private Animator animator;
     private float speed = 1;
 
-    public void LoadContent(DungenonTilesetII0x72Loader content)
+    public void LoadContent(DungenonTilesetII0x72Loader content, Texture2D characterShadow)
     {
       this.animator = new Animator(new[] {
         new Animation("idle", content.Texture, content.TryGetSpriteCoordinates("knight_m_idle_anim")),
         new Animation("run", content.Texture, content.TryGetSpriteCoordinates("knight_m_run_anim")),
         new Animation("hit", content.Texture, content.TryGetSpriteCoordinates("knight_m_hit_anim"))
-      }, "idle");
+      }, "idle", null, new Vector2(2, 2));
 
+      this.AddComponent(new SpriteRenderer(characterShadow, null, new Vector2(0.1f, 1.5f)));
       this.AddComponent(animator);
+
     }
 
     public override void Update(GameTime gameTime)
