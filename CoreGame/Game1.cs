@@ -13,6 +13,7 @@ namespace CraftEnd
     private GraphicsDeviceManager _graphics;
     private List<Entity> entities = new List<Entity>();
     private Player player;
+    private Camera camera;
 
     public Game1()
     {
@@ -37,6 +38,8 @@ namespace CraftEnd
     {
       Renderer.LoadContent(GraphicsDevice, _graphics, Content.Load<SpriteFont>("Arial"));
       var renderLayer = Renderer.CreateRenderLayer(25);
+      this.camera = renderLayer.Camera;
+      this.camera.RenderPivot = RenderPivot.Center;
       var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
       var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
       var devLevel = new Level(devLevelMap);
@@ -52,6 +55,13 @@ namespace CraftEnd
       dungeonTileSet0x72Loader.LoadContent(Content);
       var characterShadow = Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCharacterShadow);
       this.player.LoadContent(dungeonTileSet0x72Loader, characterShadow);
+
+      var guiLayer = Renderer.CreateRenderLayer(20);
+      var uiLife = new Life();
+      guiLayer.AddEntity(uiLife);
+      uiLife.LoadContent(dungeonTileSet0x72Loader);
+      uiLife.NumberOfHearts = 5;
+      uiLife.Position = new Vector2(0.1f, 0);
     }
 
     protected override void Update(GameTime gameTime)
@@ -60,6 +70,7 @@ namespace CraftEnd
         Exit();
 
       entities.ForEach((Entity entity) => entity.Update(gameTime));
+      this.camera.Position = this.player.Position;
 
       base.Update(gameTime);
     }

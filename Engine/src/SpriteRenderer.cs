@@ -21,9 +21,11 @@ namespace CraftEnd.Engine
         spriteBatch.Draw(t.TextureAtlas, new Rectangle
         {
           X = (int)(this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
-            t.OffsetPosition.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X),
+            t.OffsetPosition.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X +
+            renderLayer.Position.X * renderLayer.PixelMetersMultiplier),
           Y = (int)(this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
-            t.OffsetPosition.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y),
+            t.OffsetPosition.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y +
+            renderLayer.Position.Y * renderLayer.PixelMetersMultiplier),
           Height = (int)(this.Entity.Scale.Y * renderLayer.PixelMetersMultiplier),
           Width = (int)(this.Entity.Scale.X * renderLayer.PixelMetersMultiplier)
         }, t.SpriteCoordinates, Color.White, 0, new Vector2(0, 0), SpriteEffects.None, 1);

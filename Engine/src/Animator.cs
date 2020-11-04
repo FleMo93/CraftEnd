@@ -107,14 +107,12 @@ namespace CraftEnd.Engine
 
         spriteBatch.Draw(currentSprite, new Rectangle
         {
-          // X = (int)(this.Entity.Position.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X + 
-          //   (this.offset.HasValue ? this.offset.Value.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X : 0)),
-          // Y = (int)(this.Entity.Position.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y +
-          //   (this.offset.HasValue ? this.offset.Value.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y : 0)),
-          X = (int)(this.Entity.Position.X * renderLayer.PixelMetersMultiplier + 
-            this.offset.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X),
+          X = (int)(this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
+            this.offset.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X +
+            renderLayer.Position.X * renderLayer.PixelMetersMultiplier),
           Y = (int)(this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
-            this.offset.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y),
+            this.offset.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y +
+            renderLayer.Position.Y * renderLayer.PixelMetersMultiplier),
           Height = (int)(height * this.scale.Y),
           Width = (int)(width * this.scale.X)
         },

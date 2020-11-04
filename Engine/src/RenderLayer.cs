@@ -6,13 +6,15 @@ namespace CraftEnd.Engine
 {
   public class RenderLayer
   {
-    public float PixelMetersMultiplier { get; } = short.MaxValue;
+    internal float PixelMetersMultiplier { get; } = short.MaxValue;
     private SpriteBatch _spriteBatch;
     private GraphicsDevice _graphicsDevice;
     private GraphicsDeviceManager _graphicsDeviceManager;
     private float _targetHeight = 1;
     private Matrix scaleMatrix;
     private List<Entity> _entities;
+    internal Vector2 Position { get { return this.Camera.RenderPosition; } }
+    public Camera Camera { get; private set; }
 
     public float TargetHeight
     {
@@ -37,11 +39,13 @@ namespace CraftEnd.Engine
       _spriteBatch = new SpriteBatch(graphicsDevice);
       _entities = new List<Entity>();
       TargetHeight = targetHeight;
+      this.Camera = new Camera(graphicsDeviceManager);
     }
 
     internal void Draw(GameTime gameTime)
     {
       _spriteBatch.Begin(transformMatrix: scaleMatrix, samplerState: SamplerState.PointClamp);
+      this.Camera.Draw(gameTime, this, _spriteBatch);
       this._entities.ForEach(e => e.Draw(gameTime, this, _spriteBatch));
       _spriteBatch.End();
     }

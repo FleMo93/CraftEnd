@@ -12,6 +12,8 @@ namespace CraftEnd.Engine
     private static GraphicsDevice _graphicsDevice;
     private static GraphicsDeviceManager _graphicsDeviceManager;
     private static RenderLayer _debugLayer;
+    private static Texture2D _debugBackground;
+    private static Vector2 _debugBackgroundPosition = new Vector2();
     private static SpriteBatch _spriteBatch;
 
 
@@ -23,16 +25,23 @@ namespace CraftEnd.Engine
       _debugFont = debugFont;
       _debugLayer = new RenderLayer(graphicsDevice, graphicsDeviceManager, 1);
       _spriteBatch = new SpriteBatch(_graphicsDevice);
+
+      _debugBackground = new Texture2D(graphicsDevice, 170, 20);
+      Color[] data = new Color[170 * 20];
+      for (int i = 0; i < data.Length; ++i)
+        data[i] = new Color(Color.Black, 200);
+      _debugBackground.SetData(data);
     }
 
     public static void Draw(GameTime gameTime)
     {
-      _graphicsDevice.Clear(Color.CornflowerBlue);
+      _graphicsDevice.Clear(Color.Black);
       _renderLayers.ForEach(r => r.Draw(gameTime));
 
       if (ShowFPS && _debugFont != null)
       {
         _spriteBatch.Begin();
+        _spriteBatch.Draw(_debugBackground, _debugBackgroundPosition, Color.White);
         _spriteBatch.DrawString(_debugFont, "Frametime: " + gameTime.ElapsedGameTime.TotalSeconds, new Vector2(1, 1), Color.White, 0, new Vector2(0, 0), 1, new SpriteEffects(), 1);
         _spriteBatch.End();
       }
