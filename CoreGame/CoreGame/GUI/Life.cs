@@ -44,7 +44,7 @@ namespace CraftEnd.CoreGame
       spriteRenderer.Sprites.Clear();
       for (int i = 0; i < _numberOfHearts; i++)
       {
-        spriteRenderer.Sprites.Add(new DrawInfo(this.texture, heartFullSpriteCoordinates, new Vector2(i, 0)));
+        spriteRenderer.Sprites.Add(new SpriteStatic(this.texture, heartFullSpriteCoordinates, new Vector2(i, 0)));
       }
     }
   }

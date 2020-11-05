@@ -16,5 +16,6 @@ namespace CraftEnd.Engine
     }
 
     internal virtual void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch) { }
+    internal virtual void Update(GameTime gameTime) { }
   }
 }

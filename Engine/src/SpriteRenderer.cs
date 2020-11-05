@@ -6,20 +6,33 @@ namespace CraftEnd.Engine
 {
   public class SpriteRenderer : Component
   {
-    public List<DrawInfo> Sprites = new List<DrawInfo>();
+    public List<Sprite> Sprites = new List<Sprite>();
 
-    public SpriteRenderer() { }
-    public SpriteRenderer(Texture2D texture2D, Rectangle? spriteCoordinates = null, Vector2? offsetPosition = null, RenderPivot renderPivot = RenderPivot.TopLeft)
+    internal override void Update(GameTime gameTime)
     {
-      Sprites.Add(new DrawInfo(texture2D, spriteCoordinates, offsetPosition, renderPivot));
+      this.Sprites.ForEach(r => r.Update(gameTime));
     }
 
     internal override void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch)
     {
       foreach (var t in this.Sprites)
       {
-        var height = this.Entity.Scale.Y * renderLayer.PixelMetersMultiplier;
-        var width = this.Entity.Scale.X * renderLayer.PixelMetersMultiplier;
+        var height = this.Entity.Scale.Y * t.Scale.Y * renderLayer.PixelMetersMultiplier;
+        var width = this.Entity.Scale.X * t.Scale.X * renderLayer.PixelMetersMultiplier;
+
+        if (t.SpriteCoordinates.HasValue)
+          if (t.SpriteCoordinates.Value.Height > t.SpriteCoordinates.Value.Width)
+            width = width * t.SpriteCoordinates.Value.Width / t.SpriteCoordinates.Value.Height;
+          else
+            height = height * t.SpriteCoordinates.Value.Width / t.SpriteCoordinates.Value.Height;
+        else
+        {
+          if (t.Texture.Height > t.Texture.Width)
+            width = width * t.Texture.Height / t.Texture.Width;
+          else
+            height = height * t.Texture.Width / t.Texture.Height;
+        }
+
         var x = this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
             t.OffsetPosition.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X +
             renderLayer.Position.X * renderLayer.PixelMetersMultiplier;
@@ -35,13 +48,14 @@ namespace CraftEnd.Engine
             break;
         }
 
-        spriteBatch.Draw(t.TextureAtlas, new Rectangle
+        spriteBatch.Draw(t.Texture, new Rectangle
         {
           X = (int)x,
           Y = (int)y,
           Height = (int)height,
           Width = (int)width
-        }, t.SpriteCoordinates, Color.White, 0, new Vector2(0, 0), SpriteEffects.None, 1);
+        }, t.SpriteCoordinates, Color.White, 0, new Vector2(0, 0),
+        t.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 1);
       }
     }
   }

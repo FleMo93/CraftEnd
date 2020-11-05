@@ -8,22 +8,25 @@ namespace CraftEnd.CoreGame
 {
   public class Player : Entity
   {
-    private Animator animator;
+    private SpriteAnimator characterAnimator;
     private float speed = 1;
 
     public void LoadContent(DungenonTilesetII0x72Loader content, Texture2D characterShadow)
     {
-      this.animator = new Animator(new[] {
-        new Animation("idle", content.Texture, content.TryGetSpriteCoordinates("knight_m_idle_anim")),
-        new Animation("run", content.Texture, content.TryGetSpriteCoordinates("knight_m_run_anim")),
-        new Animation("hit", content.Texture, content.TryGetSpriteCoordinates("knight_m_hit_anim"))
+      var spriteRenderer = new SpriteRenderer();
+      this.AddComponent(spriteRenderer);
+
+      this.characterAnimator = new SpriteAnimator(new[] {
+        new SpriteAnimation("idle", content.Texture, content.TryGetSpriteCoordinates("knight_m_idle_anim")),
+        new SpriteAnimation("run", content.Texture, content.TryGetSpriteCoordinates("knight_m_run_anim")),
+        new SpriteAnimation("hit", content.Texture, content.TryGetSpriteCoordinates("knight_m_hit_anim"))
       }, "idle");
-      this.animator.Scale = new Vector2(2, 2);
-      this.animator.RenderPivot = RenderPivot.Center;
+      this.characterAnimator.Scale = new Vector2(2, 2);
+      this.characterAnimator.RenderPivot = RenderPivot.Center;
 
-      this.AddComponent(new SpriteRenderer(characterShadow, null, new Vector2(0, 1f), RenderPivot.Center));
-      this.AddComponent(animator);
-
+      var shadowSprite = new SpriteStatic(characterShadow, null, new Vector2(0, 1f), RenderPivot.Center);
+      spriteRenderer.Sprites.Add(shadowSprite);
+      spriteRenderer.Sprites.Add(characterAnimator);
     }
 
     public override void Update(GameTime gameTime)
@@ -46,15 +49,17 @@ namespace CraftEnd.CoreGame
       this.Position.X += (float)(horizontalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
       this.Position.Y += (float)(verticalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
 
-      if (verticalMovement != 0 || horizontalMovement != 0 && this.animator.CurrentAnimationName != "run")
-        this.animator.SetAnimation("run");
-      else if (verticalMovement == 0 && horizontalMovement == 0 && this.animator.CurrentAnimationName != "idle")
-        this.animator.SetAnimation("idle");
+      if (verticalMovement != 0 || horizontalMovement != 0 && this.characterAnimator.CurrentAnimationName != "run")
+        this.characterAnimator.SetAnimation("run");
+      else if (verticalMovement == 0 && horizontalMovement == 0 && this.characterAnimator.CurrentAnimationName != "idle")
+        this.characterAnimator.SetAnimation("idle");
 
       if (horizontalMovement > 0)
-        this.animator.FlipHorizontal = false;
+        this.characterAnimator.FlipHorizontal = false;
       else if (horizontalMovement < 0)
-        this.animator.FlipHorizontal = true;
+        this.characterAnimator.FlipHorizontal = true;
+
+      base.Update(gameTime);
     }
   }
 }

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CraftEnd.Engine
 {
-  public class Animation
+  public class SpriteAnimation
   {
     public string Name { get; private set; }
     public double SpriteTime { get; private set; }
@@ -12,7 +12,7 @@ namespace CraftEnd.Engine
     private Texture2D[] textures;
     private Rectangle[] subTextureCoordinates;
 
-    private Animation(string name, double spriteTime = 0.16f)
+    private SpriteAnimation(string name, double spriteTime = 0.16f)
     {
       if (string.IsNullOrWhiteSpace(name))
         throw new System.NullReferenceException();
@@ -21,7 +21,7 @@ namespace CraftEnd.Engine
       this.SpriteTime = spriteTime;
     }
 
-    public Animation(string name, Texture2D[] textures, double spriteTime = 0.16f) : this(name, spriteTime)
+    public SpriteAnimation(string name, Texture2D[] textures, double spriteTime = 0.16f) : this(name, spriteTime)
     {
       if (textures.Length == 0)
         throw new System.NullReferenceException("Animation must at least contain one frame");
@@ -30,7 +30,7 @@ namespace CraftEnd.Engine
       this.NumberOfSprites = textures.Length;
     }
 
-    public Animation(string name, Texture2D texture, Rectangle[] subTextureCoordinates, double spriteTime = 0.16f) : this(name, spriteTime)
+    public SpriteAnimation(string name, Texture2D texture, Rectangle[] subTextureCoordinates, double spriteTime = 0.16f) : this(name, spriteTime)
     {
       if (subTextureCoordinates.Length == 0)
         throw new System.NullReferenceException("Animation must at least contain one frame");
