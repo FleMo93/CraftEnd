@@ -15,14 +15,13 @@ namespace CraftEnd.Engine
       private double spriteTime = 0;
       private int spriteNumber = 0;
       private Dictionary<string, Animation> animations;
-      private Vector2 offset;
-      private Vector2 scale;
+      public Vector2 Offset { get; set; } = new Vector2(0, 0);
+      public Vector2 Scale { get; set; } = new Vector2(1, 1);
+      public RenderPivot RenderPivot { get; set; } = RenderPivot.TopLeft;
 
-      public Animator(Animation[] animations, Vector2? offset = null, Vector2? scale = null)
+      public Animator(Animation[] animations)
       {
         this.animations = new Dictionary<string, Animation>();
-        this.offset = offset ?? new Vector2(0, 0);
-        this.scale = scale ?? new Vector2(1, 1);
 
         foreach (var animation in animations)
         {
@@ -35,7 +34,7 @@ namespace CraftEnd.Engine
         if (animations.Length > 0)
           this.CurrentAnimationName = animations[0].Name;
       }
-      public Animator(Animation[] animations, string startAnimation, Vector2? offset = null, Vector2? scale = null) : this(animations, offset, scale)
+      public Animator(Animation[] animations, string startAnimation) : this(animations)
       {
         this.CurrentAnimationName = startAnimation;
       }
@@ -89,8 +88,8 @@ namespace CraftEnd.Engine
           }
         }
 
-        var height = (int)(this.Entity.Scale.Y * renderLayer.PixelMetersMultiplier);
-        var width = (int)(this.Entity.Scale.X * renderLayer.PixelMetersMultiplier);
+        var height = this.Entity.Scale.Y * renderLayer.PixelMetersMultiplier;
+        var width = this.Entity.Scale.X * renderLayer.PixelMetersMultiplier;
 
         if (subTexture.HasValue)
           if (subTexture.Value.Height > subTexture.Value.Width)
@@ -105,16 +104,29 @@ namespace CraftEnd.Engine
             height = height * currentSprite.Width / currentSprite.Height;
         }
 
+        height = height * this.Scale.Y;
+        width = width * this.Scale.X;
+        var x = this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
+            this.Offset.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X +
+            renderLayer.Position.X * renderLayer.PixelMetersMultiplier;
+        var y = this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
+            this.Offset.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y +
+            renderLayer.Position.Y * renderLayer.PixelMetersMultiplier;
+
+        switch (this.RenderPivot)
+        {
+          case RenderPivot.Center:
+            x = x - width / 2;
+            y = y - height / 2;
+            break;
+        }
+
         spriteBatch.Draw(currentSprite, new Rectangle
         {
-          X = (int)(this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
-            this.offset.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X +
-            renderLayer.Position.X * renderLayer.PixelMetersMultiplier),
-          Y = (int)(this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
-            this.offset.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y +
-            renderLayer.Position.Y * renderLayer.PixelMetersMultiplier),
-          Height = (int)(height * this.scale.Y),
-          Width = (int)(width * this.scale.X)
+          X = (int)x,
+          Y = (int)y,
+          Height = (int)height,
+          Width = (int)width
         },
           subTexture, Color.White, 0, new Vector2(0, 0),
           this.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None,

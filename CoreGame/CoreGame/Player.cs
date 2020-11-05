@@ -17,9 +17,11 @@ namespace CraftEnd.CoreGame
         new Animation("idle", content.Texture, content.TryGetSpriteCoordinates("knight_m_idle_anim")),
         new Animation("run", content.Texture, content.TryGetSpriteCoordinates("knight_m_run_anim")),
         new Animation("hit", content.Texture, content.TryGetSpriteCoordinates("knight_m_hit_anim"))
-      }, "idle", null, new Vector2(2, 2));
+      }, "idle");
+      this.animator.Scale = new Vector2(2, 2);
+      this.animator.RenderPivot = RenderPivot.Center;
 
-      this.AddComponent(new SpriteRenderer(characterShadow, null, new Vector2(0.1f, 1.5f)));
+      this.AddComponent(new SpriteRenderer(characterShadow, null, new Vector2(0, 1f), RenderPivot.Center));
       this.AddComponent(animator);
 
     }

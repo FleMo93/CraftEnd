@@ -25,7 +25,8 @@ namespace CraftEnd.CoreGame
 
             var animator = new Animator(new Animation[] {
               new Animation("default", map.TextureAtlas, rectangles)
-            }, "default", sprite.Position);
+            }, "default");
+            animator.Offset = sprite.Position;
 
             AddComponent(animator);
           }
