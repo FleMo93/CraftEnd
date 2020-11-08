@@ -6,6 +6,7 @@ namespace CraftEnd.Engine
 {
   public class SpriteRenderer : Component
   {
+    public bool ShowDebugTexture { get; set; } = false;
     public List<Sprite> Sprites = new List<Sprite>();
 
     internal override void Update(GameTime gameTime)
@@ -55,7 +56,24 @@ namespace CraftEnd.Engine
           Height = (int)height,
           Width = (int)width
         }, t.SpriteCoordinates, Color.White, 0, new Vector2(0, 0),
-        t.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 1);
+        t.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+
+      }
+
+      if (this.ShowDebugTexture)
+      {
+        var x = this.Entity.Position.X * renderLayer.PixelMetersMultiplier + renderLayer.Position.X * renderLayer.PixelMetersMultiplier;
+        var y = this.Entity.Position.Y * renderLayer.PixelMetersMultiplier + renderLayer.Position.Y * renderLayer.PixelMetersMultiplier;
+        var height = 1 * renderLayer.PixelMetersMultiplier;
+        var width = 1 * renderLayer.PixelMetersMultiplier;
+
+        spriteBatch.Draw(Renderer.DebugPositionTexture, new Rectangle
+        {
+          X = (int)x,
+          Y = (int)y,
+          Height = (int)height,
+          Width = (int)width,
+        }, null, Color.Red, 0, new Vector2(), SpriteEffects.None, 1);
       }
     }
   }

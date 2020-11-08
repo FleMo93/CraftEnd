@@ -11,7 +11,7 @@ namespace CraftEnd.Engine
 
     public Vector2 Position = new Vector2(0, 0);
     public Vector2 Scale = new Vector2(1, 1);
-    private List<Component> components = new List<Component>();
+    internal List<Component> components = new List<Component>();
 
     public Entity(params int[] IComponent)
     {

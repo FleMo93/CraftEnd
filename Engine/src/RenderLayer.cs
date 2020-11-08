@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -46,7 +47,10 @@ namespace CraftEnd.Engine
     {
       _spriteBatch.Begin(transformMatrix: scaleMatrix, samplerState: SamplerState.PointClamp);
       this.Camera.Draw(gameTime, this, _spriteBatch);
-      this._entities.ForEach(e => e.Draw(gameTime, this, _spriteBatch));
+
+      foreach (var entity in this._entities.OrderBy(e => e.Position.Y))
+        entity.Draw(gameTime, this, _spriteBatch);
+
       _spriteBatch.End();
     }
 

@@ -15,7 +15,7 @@ namespace CraftEnd.Engine
       private int spriteNumber = 0;
       private Dictionary<string, SpriteAnimation> animations;
 
-      public SpriteAnimator(SpriteAnimation[] animations)
+      public SpriteAnimator(Entity entity, SpriteAnimation[] animations) : base(entity)
       {
         if (animations == null || animations.Length == 0)
           throw new System.Exception("At least one animation is required");
@@ -35,7 +35,7 @@ namespace CraftEnd.Engine
         this.Texture = spriteInfo.Item1;
         this.SpriteCoordinates = spriteInfo.Item2;
       }
-      public SpriteAnimator(SpriteAnimation[] animations, string startAnimation) : this(animations)
+      public SpriteAnimator(Entity entity, SpriteAnimation[] animations, string startAnimation) : this(entity, animations)
       {
         this.CurrentAnimationName = startAnimation;
       }

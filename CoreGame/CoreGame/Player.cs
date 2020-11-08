@@ -16,7 +16,7 @@ namespace CraftEnd.CoreGame
       var spriteRenderer = new SpriteRenderer();
       this.AddComponent(spriteRenderer);
 
-      this.characterAnimator = new SpriteAnimator(new[] {
+      this.characterAnimator = new SpriteAnimator(this, new[] {
         new SpriteAnimation("idle", content.Texture, content.TryGetSpriteCoordinates("knight_m_idle_anim")),
         new SpriteAnimation("run", content.Texture, content.TryGetSpriteCoordinates("knight_m_run_anim")),
         new SpriteAnimation("hit", content.Texture, content.TryGetSpriteCoordinates("knight_m_hit_anim"))
@@ -24,7 +24,7 @@ namespace CraftEnd.CoreGame
       this.characterAnimator.Scale = new Vector2(2, 2);
       this.characterAnimator.RenderPivot = RenderPivot.Center;
 
-      var shadowSprite = new SpriteStatic(characterShadow, null, new Vector2(0, 1f), RenderPivot.Center);
+      var shadowSprite = new SpriteStatic(this, characterShadow, null, new Vector2(0, 1f), RenderPivot.Center);
       spriteRenderer.Sprites.Add(shadowSprite);
       spriteRenderer.Sprites.Add(characterAnimator);
     }

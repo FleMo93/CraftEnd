@@ -24,6 +24,7 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
+      this.player.Position = new Vector2(3, 17.5f);
       entities.Add(this.player);
     }
 

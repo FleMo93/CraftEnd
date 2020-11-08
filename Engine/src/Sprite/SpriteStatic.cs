@@ -5,7 +5,7 @@ namespace CraftEnd.Engine
 {
   public class SpriteStatic : Sprite
   {
-    public SpriteStatic(Texture2D texture, Rectangle? spriteCoordinates = null, Vector2? offsetPosition = null, RenderPivot renderPivot = RenderPivot.TopLeft)
+    public SpriteStatic(Entity entity, Texture2D texture, Rectangle? spriteCoordinates = null, Vector2? offsetPosition = null, RenderPivot renderPivot = RenderPivot.TopLeft): base(entity)
     {
       this.Texture = texture;
       this.SpriteCoordinates = spriteCoordinates;

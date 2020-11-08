@@ -23,14 +23,14 @@ namespace CraftEnd.CoreGame
               .Concat(sprite.TilesetTile.AnimationList.Select(a => a.TilesetTile.Rectangle))
               .ToArray();
 
-            var animator = new SpriteAnimator(new SpriteAnimation[] {
+            var animator = new SpriteAnimator(this, new SpriteAnimation[] {
               new SpriteAnimation("default", map.TextureAtlas, rectangles)
             }, "default");
             animator.OffsetPosition = sprite.Position;
             spriteRenderer.Sprites.Add(animator);
           }
           else
-            spriteRenderer.Sprites.Add(new SpriteStatic(map.TextureAtlas, sprite.TilesetTile.Rectangle, sprite.Position));
+            spriteRenderer.Sprites.Add(new SpriteStatic(this, map.TextureAtlas, sprite.TilesetTile.Rectangle, sprite.Position));
         }
     }
   }
