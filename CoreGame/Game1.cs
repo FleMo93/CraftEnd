@@ -37,7 +37,7 @@ namespace CraftEnd
 
     protected override void LoadContent()
     {
-      Renderer.LoadContent(GraphicsDevice, _graphics, Content.Load<SpriteFont>("Arial"));
+      Renderer.LoadContent(GraphicsDevice, _graphics, Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCoordinateAxis), Content.Load<SpriteFont>("Arial"));
       var renderLayer = Renderer.CreateRenderLayer(25);
       this.camera = renderLayer.Camera;
       this.camera.RenderPivot = RenderPivot.Center;

@@ -15,10 +15,9 @@ namespace CraftEnd.Engine
     private static Texture2D _debugBackground;
     private static Vector2 _debugBackgroundPosition = new Vector2();
     private static SpriteBatch _spriteBatch;
+    internal static Texture2D DebugPositionTexture { get; private set; }
 
-    internal static Texture2D DebugPositionTexture;
-
-    public static void LoadContent(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, SpriteFont debugFont = null)
+    public static void LoadContent(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, Texture2D debugPositionTexture = null, SpriteFont debugFont = null)
     {
       _graphicsDevice = graphicsDevice;
       _graphicsDeviceManager = graphicsDeviceManager;
@@ -33,10 +32,7 @@ namespace CraftEnd.Engine
         data[i] = new Color(Color.Black, 200);
       _debugBackground.SetData(data);
 
-      DebugPositionTexture = new Texture2D(graphicsDevice, 5, 5);
-      var color = new Color[5*5];
-      color[2] = color[7] = color[10] = color[11] = color[12] = color[13] = color[14] = color[17] = color[22] = Color.Red;
-      DebugPositionTexture.SetData(color);
+      DebugPositionTexture = debugPositionTexture;
     }
 
     public static void Draw(GameTime gameTime)
