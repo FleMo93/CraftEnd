@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CraftEnd.Engine
 {
+  public enum RenderPivot { TopLeft, Center, BottomCenter }
+
   public class SpriteRenderer : Component
   {
     public bool ShowEntityPositionAxis { get; set; } = false;
@@ -47,6 +49,10 @@ namespace CraftEnd.Engine
           case RenderPivot.Center:
             x = x - width / 2;
             y = y - height / 2;
+            break;
+          case RenderPivot.BottomCenter:
+            x = x - width / 2;
+            y = y - height;
             break;
         }
 

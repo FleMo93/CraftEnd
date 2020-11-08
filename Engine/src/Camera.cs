@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CraftEnd.Engine
 {
-  public enum RenderPivot { TopLeft, Center }
-
   public class Camera : Entity
   {
     private GraphicsDeviceManager graphicsDeviceManager;

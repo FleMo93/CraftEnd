@@ -7,13 +7,14 @@ namespace CraftEnd.Engine
 {
   public partial class Entity
   {
-    internal static List<Entity> Entities = new List<Entity>();
+    public static List<Entity> Entities = new List<Entity>();
 
+    public List<Entity> Children = new List<Entity>();
     public Vector2 Position = new Vector2(0, 0);
     public Vector2 Scale = new Vector2(1, 1);
     internal List<Component> components = new List<Component>();
 
-    public Entity(params int[] IComponent)
+    public Entity()
     {
       Entities.Add(this);
     }

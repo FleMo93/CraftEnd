@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CraftEnd.CoreGame;
+﻿using CraftEnd.CoreGame;
 using CraftEnd.CoreGame.Content.Loader;
 using CraftEnd.Engine;
 using Microsoft.Xna.Framework;
@@ -11,7 +10,6 @@ namespace CraftEnd
   public class Game1 : Game
   {
     private GraphicsDeviceManager _graphics;
-    private List<Entity> entities = new List<Entity>();
     private Player player;
     private Camera camera;
 
@@ -24,13 +22,12 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
-      this.player.Position = new Vector2(3, 17.5f);
-      entities.Add(this.player);
+      this.player.Position = new Vector2(0, 0f);
     }
 
     protected override void Initialize()
     {
-      entities.ForEach((Entity entity) => entity.Initialize());
+      Entity.Entities.ForEach((Entity entity) => entity.Initialize());
 
       base.Initialize();
     }
@@ -44,9 +41,9 @@ namespace CraftEnd
       var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
       var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
       var devLevel = new Level(devLevelMap);
-      this.entities.Insert(0, devLevel);
+      Entity.Entities.Insert(0, devLevel);
 
-      entities.ForEach((Entity entity) =>
+      Entity.Entities.ForEach((Entity entity) =>
       {
         entity.LoadContent(Content);
         renderLayer.AddEntity(entity);
@@ -70,7 +67,7 @@ namespace CraftEnd
       if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
         Exit();
 
-      entities.ForEach((Entity entity) => entity.Update(gameTime));
+      Entity.Entities.ForEach((Entity entity) => entity.Update(gameTime));
       this.camera.Position = this.player.Position;
 
       base.Update(gameTime);

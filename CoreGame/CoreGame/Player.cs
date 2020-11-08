@@ -22,11 +22,12 @@ namespace CraftEnd.CoreGame
         new SpriteAnimation("hit", content.Texture, content.TryGetSpriteCoordinates("knight_m_hit_anim"))
       }, "idle");
       this.characterAnimator.Scale = new Vector2(2, 2);
-      this.characterAnimator.RenderPivot = RenderPivot.Center;
+      this.characterAnimator.RenderPivot = RenderPivot.BottomCenter;
 
-      var shadowSprite = new SpriteStatic(this, characterShadow, null, new Vector2(0, 1f), RenderPivot.Center);
+      var shadowSprite = new SpriteStatic(this, characterShadow, null, new Vector2(0, 0f), RenderPivot.Center);
       spriteRenderer.Sprites.Add(shadowSprite);
       spriteRenderer.Sprites.Add(characterAnimator);
+      spriteRenderer.ShowEntityPositionAxis = true;
     }
 
     public override void Update(GameTime gameTime)

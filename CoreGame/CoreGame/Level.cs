@@ -1,36 +1,18 @@
-using System.Linq;
 using CraftEnd.CoreGame.Content.Loader;
 using CraftEnd.Engine;
-using Microsoft.Xna.Framework;
 
 namespace CraftEnd.CoreGame
 {
   public class Level : Entity
   {
-    TiledMap map;
-    public Level(TiledMap map)
+    public Level(TiledMap map): base()
     {
-      this.map = map;
-      var spriteRenderer = new SpriteRenderer();
-      this.AddComponent(spriteRenderer);
-
       foreach (var layer in map.Layers)
         foreach (var sprite in layer.Value)
         {
-          if (sprite.TilesetTile.IsAnimated)
-          {
-            var rectangles = new Rectangle[] { sprite.TilesetTile.Rectangle }
-              .Concat(sprite.TilesetTile.AnimationList.Select(a => a.TilesetTile.Rectangle))
-              .ToArray();
-
-            var animator = new SpriteAnimator(this, new SpriteAnimation[] {
-              new SpriteAnimation("default", map.TextureAtlas, rectangles)
-            }, "default");
-            animator.OffsetPosition = sprite.Position;
-            spriteRenderer.Sprites.Add(animator);
-          }
-          else
-            spriteRenderer.Sprites.Add(new SpriteStatic(this, map.TextureAtlas, sprite.TilesetTile.Rectangle, sprite.Position));
+          var tile = new LevelTile(sprite.TilesetTile, map.TextureAtlas);
+          tile.Position = sprite.Position;
+          this.Children.Add(tile);
         }
     }
   }
