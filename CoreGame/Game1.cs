@@ -22,7 +22,7 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
-      this.player.Position = new Vector2(0, 0f);
+      this.player.Position = new Vector3(0, 17.5f, 0);
     }
 
     protected override void Initialize()
@@ -59,7 +59,7 @@ namespace CraftEnd
       guiLayer.AddEntity(uiLife);
       uiLife.LoadContent(dungeonTileSet0x72Loader);
       uiLife.NumberOfHearts = 5;
-      uiLife.Position = new Vector2(0.1f, 0);
+      uiLife.Position = new Vector3(0.1f, 0, 0);
     }
 
     protected override void Update(GameTime gameTime)

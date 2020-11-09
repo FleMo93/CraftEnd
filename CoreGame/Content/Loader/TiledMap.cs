@@ -62,6 +62,8 @@ namespace CraftEnd.CoreGame.Content.Loader
       public string Offsetx { get; set; }
       [XmlAttribute(AttributeName = "offsety")]
       public string Offsety { get; set; }
+      [XmlElement(ElementName = "properties")]
+      public Properties Properties { get; set; }
       [XmlAttribute(AttributeName = "width")]
       public string Width { get; set; }
     }
@@ -108,14 +110,31 @@ namespace CraftEnd.CoreGame.Content.Loader
       public string Source { get; set; }
     }
 
+    [XmlRoot(ElementName = "properties")]
+    public class Properties
+    {
+      [XmlElement(ElementName = "property")]
+      public List<Property> Property { get; set; }
+    }
+
+    [XmlRoot(ElementName = "property")]
+    public class Property
+    {
+      [XmlAttribute(AttributeName = "name")]
+      public string Name { get; set; }
+      [XmlAttribute(AttributeName = "type")]
+      public string Type { get; set; }
+      [XmlAttribute(AttributeName = "value")]
+      public string Value { get; set; }
+    }
   }
 
   public class MapTile
   {
     public TilesetTile TilesetTile { get; private set; }
-    public Vector2 Position { get; private set; }
+    public Vector3 Position { get; private set; }
 
-    public MapTile(TilesetTile tile, Vector2 position)
+    public MapTile(TilesetTile tile, Vector3 position)
     {
       this.TilesetTile = tile;
       this.Position = position;
@@ -133,11 +152,15 @@ namespace CraftEnd.CoreGame.Content.Loader
       var xmlStream = System.IO.File.OpenRead(tmxFilePath);
       var serializer = new System.Xml.Serialization.XmlSerializer(typeof(TiledTmx.Map));
       var tiledTmx = (TiledTmx.Map)serializer.Deserialize(xmlStream);
+      var tileHeight = int.Parse(tiledTmx.Tileheight);
+      var tilewidth = int.Parse(tiledTmx.Tilewidth);
 
       tiledTmx.Layer.ForEach(layer =>
       {
         var currentLayer = new List<MapTile>();
         Layers.Add(layer.Name, currentLayer);
+        var layerOffsetX = layer.Offsetx != null ? int.Parse(layer.Offsetx, System.Globalization.NumberStyles.Integer) : 0;
+        var layerOffsetY = layer.Offsety != null ? int.Parse(layer.Offsety, System.Globalization.NumberStyles.Integer) : 0;
 
         layer.Data.Chunk.ForEach(chunk =>
         {
@@ -155,7 +178,10 @@ namespace CraftEnd.CoreGame.Content.Loader
               var tileId = int.Parse(tileIds[counter++], System.Globalization.NumberStyles.Integer) - 1;
               if (tileId == -1)
                 continue;
-              currentLayer.Add(new MapTile(tileset.Tiles[tileId.ToString()], new Vector2(x, y)));
+              currentLayer.Add(new MapTile(tileset.Tiles[tileId.ToString()], new Vector3(
+                x + layerOffsetX / tilewidth,
+                y + layerOffsetY / tileHeight,
+                1)));
             }
           }
         });

@@ -38,10 +38,8 @@ namespace CraftEnd.Engine
         }
 
         var x = this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
-            t.OffsetPosition.X * renderLayer.PixelMetersMultiplier * this.Entity.Scale.X +
             renderLayer.Position.X * renderLayer.PixelMetersMultiplier;
         var y = this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
-            t.OffsetPosition.Y * renderLayer.PixelMetersMultiplier * this.Entity.Scale.Y +
             renderLayer.Position.Y * renderLayer.PixelMetersMultiplier;
 
         switch (t.RenderPivot)
@@ -55,6 +53,9 @@ namespace CraftEnd.Engine
             y = y - height;
             break;
         }
+
+        x += t.OffsetPosition.X * renderLayer.PixelMetersMultiplier;
+        y += -t.OffsetPosition.Y * renderLayer.PixelMetersMultiplier;
 
         spriteBatch.Draw(t.Texture, new Rectangle
         {

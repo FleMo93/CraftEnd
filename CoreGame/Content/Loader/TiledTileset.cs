@@ -107,6 +107,7 @@ namespace CraftEnd.CoreGame.Content.Loader
     public bool IsAnimated { get { return this.AnimationList.Count > 0; } }
     public List<TilesetTileAnimation> AnimationList { get; private set; }
     public Rectangle Rectangle { get; private set; }
+    public Vector2 Offset { get; set; } = new Vector2();
 
     public TilesetTile(string id, Rectangle rectangle, List<TilesetTileAnimation> animationIdList)
     {
@@ -154,10 +155,15 @@ namespace CraftEnd.CoreGame.Content.Loader
         }
 
       foreach (var specialTile in tiledTsx.Tile)
-        specialTile.Animation.Frame.ForEach(f => animationListById[specialTile.Id].Add(
-          new TilesetTileAnimation(
-            Tiles[f.Tileid],
-            int.Parse(f.Duration, System.Globalization.NumberStyles.Integer))));
+      {
+        if (specialTile.Animation != null)
+        {
+          specialTile.Animation.Frame.ForEach(f => animationListById[specialTile.Id].Add(
+            new TilesetTileAnimation(
+              Tiles[f.Tileid],
+              int.Parse(f.Duration, System.Globalization.NumberStyles.Integer))));
+        }
+      }
     }
   }
 }

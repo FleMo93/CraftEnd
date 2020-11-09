@@ -10,7 +10,7 @@ namespace CraftEnd.Engine
     public static List<Entity> Entities = new List<Entity>();
 
     public List<Entity> Children = new List<Entity>();
-    public Vector2 Position = new Vector2(0, 0);
+    public Vector3 Position = new Vector3(0, 0, 0);
     public Vector2 Scale = new Vector2(1, 1);
     internal List<Component> components = new List<Component>();
 
