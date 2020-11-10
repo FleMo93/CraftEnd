@@ -28,6 +28,10 @@ namespace CraftEnd.CoreGame
       spriteRenderer.Sprites.Add(shadowSprite);
       spriteRenderer.Sprites.Add(characterAnimator);
       // spriteRenderer.ShowEntityPositionAxis = true;
+
+      var boxCollider = new BoxCollider(new Vector2(1, 0.4f), new Vector2(-0.5f, -0.4f));
+      // boxCollider.RenderBounds = true;
+      this.AddComponent(boxCollider);
     }
 
     public override void Update(GameTime gameTime)
