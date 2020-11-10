@@ -22,7 +22,7 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
-      this.player.Position = new Vector3(0, 17.5f, 0);
+      this.player.Position = new Vector3(2, 18.5f, 0);
     }
 
     protected override void Initialize()

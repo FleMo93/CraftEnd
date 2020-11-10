@@ -8,16 +8,13 @@ namespace CraftEnd.CoreGame
     public Level(TiledMap map) : base()
     {
       foreach (var layer in map.Layers)
-        foreach (var sprite in layer.Value)
+      {
+        foreach (var mapTile in layer.Value)
         {
-          var tile = new LevelTile(sprite.TilesetTile, map.TextureAtlas);
-          tile.Position = new Microsoft.Xna.Framework.Vector3(
-            sprite.Position.X,
-            sprite.Position.Y,
-            layer.Key == "Floor" ? -1 :
-              layer.Key == "Roof" ? 1 : 0);
+          var tile = new LevelTile(mapTile, map.TextureAtlas);
           this.Children.Add(tile);
         }
+      }
     }
   }
 }

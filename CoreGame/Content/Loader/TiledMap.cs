@@ -133,11 +133,13 @@ namespace CraftEnd.CoreGame.Content.Loader
   {
     public TilesetTile TilesetTile { get; private set; }
     public Vector3 Position { get; private set; }
+    public float YOffset { get; private set; }
 
-    public MapTile(TilesetTile tile, Vector3 position)
+    public MapTile(TilesetTile tile, Vector3 position, float yOffset)
     {
       this.TilesetTile = tile;
       this.Position = position;
+      this.YOffset = yOffset;
     }
   }
 
@@ -161,6 +163,25 @@ namespace CraftEnd.CoreGame.Content.Loader
         Layers.Add(layer.Name, currentLayer);
         var layerOffsetX = layer.Offsetx != null ? int.Parse(layer.Offsetx, System.Globalization.NumberStyles.Integer) : 0;
         var layerOffsetY = layer.Offsety != null ? int.Parse(layer.Offsety, System.Globalization.NumberStyles.Integer) : 0;
+        float? layerZPositionProperty = null;
+        float? yOffsetProperty = null;
+
+        if (layer.Properties != null)
+        {
+          layer.Properties.Property.ForEach(p =>
+          {
+            switch (p.Name.ToLower())
+            {
+              case "zposition":
+                layerZPositionProperty = float.Parse(p.Value);
+                break;
+
+              case "yoffset":
+                yOffsetProperty = float.Parse(p.Value);
+                break;
+            }
+          });
+        }
 
         layer.Data.Chunk.ForEach(chunk =>
         {
@@ -181,7 +202,8 @@ namespace CraftEnd.CoreGame.Content.Loader
               currentLayer.Add(new MapTile(tileset.Tiles[tileId.ToString()], new Vector3(
                 x + layerOffsetX / tilewidth,
                 y + layerOffsetY / tileHeight,
-                1)));
+                layerZPositionProperty.HasValue ? layerZPositionProperty.Value : 0),
+                yOffsetProperty.HasValue ? yOffsetProperty.Value : 0));
             }
           }
         });

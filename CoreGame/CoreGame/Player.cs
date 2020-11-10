@@ -27,7 +27,7 @@ namespace CraftEnd.CoreGame
       var shadowSprite = new SpriteStatic(this, characterShadow, null, new Vector2(0, 0f), RenderPivot.Center);
       spriteRenderer.Sprites.Add(shadowSprite);
       spriteRenderer.Sprites.Add(characterAnimator);
-      spriteRenderer.ShowEntityPositionAxis = true;
+      // spriteRenderer.ShowEntityPositionAxis = true;
     }
 
     public override void Update(GameTime gameTime)

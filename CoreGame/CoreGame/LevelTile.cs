@@ -7,25 +7,32 @@ namespace CraftEnd.CoreGame
 {
   public class LevelTile : Entity
   {
-    public LevelTile(Content.Loader.TilesetTile tilesetTile, Texture2D mapTextureAtlas)
+    public LevelTile(Content.Loader.MapTile mapTile, Texture2D mapTextureAtlas)
     {
+      this.Position = mapTile.Position;
       var spriteRenderer = new SpriteRenderer();
       this.AddComponent(spriteRenderer);
+      Sprite sprite;
 
-      if (tilesetTile.IsAnimated)
+      if (mapTile.TilesetTile.IsAnimated)
       {
-        var rectangles = new Rectangle[] { tilesetTile.Rectangle }
-          .Concat(tilesetTile.AnimationList.Select(a => a.TilesetTile.Rectangle))
+        var rectangles = new Rectangle[] { mapTile.TilesetTile.Rectangle }
+          .Concat(mapTile.TilesetTile.AnimationList.Select(a => a.TilesetTile.Rectangle))
           .ToArray();
 
-        var animator = new SpriteAnimator(this, new SpriteAnimation[] {
+        sprite = new SpriteAnimator(this, new SpriteAnimation[] {
               new SpriteAnimation("default", mapTextureAtlas, rectangles)
             }, "default");
-        animator.RenderPivot = RenderPivot.BottomCenter;
-        spriteRenderer.Sprites.Add(animator);
+        sprite.RenderPivot = RenderPivot.BottomCenter;
       }
       else
-        spriteRenderer.Sprites.Add(new SpriteStatic(this, mapTextureAtlas, tilesetTile.Rectangle, null, RenderPivot.BottomCenter));
+      {
+        sprite = new SpriteStatic(this, mapTextureAtlas, mapTile.TilesetTile.Rectangle, null, RenderPivot.BottomCenter);
+      }
+
+      sprite.OffsetPosition = new Vector2(0, mapTile.YOffset);
+      this.Position = new Vector3(this.Position.X, this.Position.Y + mapTile.YOffset, this.Position.Z);
+      spriteRenderer.Sprites.Add(sprite);
     }
   }
 }
