@@ -38,5 +38,10 @@ namespace CraftEnd.Engine
       component.SetOwnerEntity(this);
       this.components.Add(component);
     }
+
+    public virtual void Destroy()
+    {
+      this.components.ForEach(c => c.Destroy());
+    }
   }
 }

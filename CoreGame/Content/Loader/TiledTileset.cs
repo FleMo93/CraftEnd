@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
@@ -36,6 +37,32 @@ namespace CraftEnd.CoreGame.Content.Loader
       public string Width { get; set; }
     }
 
+    [XmlRoot(ElementName = "object")]
+    public class Object
+    {
+      [XmlAttribute(AttributeName = "height")]
+      public string Height { get; set; }
+      [XmlAttribute(AttributeName = "id")]
+      public string Id { get; set; }
+      [XmlAttribute(AttributeName = "width")]
+      public string Width { get; set; }
+      [XmlAttribute(AttributeName = "x")]
+      public string X { get; set; }
+      [XmlAttribute(AttributeName = "y")]
+      public string Y { get; set; }
+    }
+
+    [XmlRoot(ElementName = "objectgroup")]
+    public class Objectgroup
+    {
+      [XmlAttribute(AttributeName = "draworder")]
+      public string Draworder { get; set; }
+      [XmlAttribute(AttributeName = "id")]
+      public string Id { get; set; }
+      [XmlElement(ElementName = "object")]
+      public List<Object> Object { get; set; }
+    }
+
     [XmlRoot(ElementName = "properties")]
     public class Properties
     {
@@ -59,6 +86,8 @@ namespace CraftEnd.CoreGame.Content.Loader
       public Animation Animation { get; set; }
       [XmlAttribute(AttributeName = "id")]
       public string Id { get; set; }
+      [XmlElement(ElementName = "objectgroup")]
+      public Objectgroup Objectgroup { get; set; }
       [XmlElement(ElementName = "properties")]
       public Properties Properties { get; set; }
     }
@@ -101,6 +130,12 @@ namespace CraftEnd.CoreGame.Content.Loader
     }
   }
 
+  public class BoxColiderDefinitions
+  {
+    public Vector2 Position { get; set; }
+    public Vector2 Size { get; set; }
+  }
+
   public class TilesetTile
   {
     public string Id { get; private set; }
@@ -108,12 +143,14 @@ namespace CraftEnd.CoreGame.Content.Loader
     public List<TilesetTileAnimation> AnimationList { get; private set; }
     public Rectangle Rectangle { get; private set; }
     public Vector2 Offset { get; set; } = new Vector2();
+    public IEnumerable<BoxColiderDefinitions> BoxColiderDefinitions { get; private set; }
 
-    public TilesetTile(string id, Rectangle rectangle, List<TilesetTileAnimation> animationIdList)
+    public TilesetTile(string id, Rectangle rectangle, List<TilesetTileAnimation> animationIdList, IEnumerable<BoxColiderDefinitions> boxColiderDefinitions)
     {
       this.Id = id;
       this.AnimationList = animationIdList;
       this.Rectangle = rectangle;
+      this.BoxColiderDefinitions = boxColiderDefinitions;
     }
   }
 
@@ -147,10 +184,26 @@ namespace CraftEnd.CoreGame.Content.Loader
           var id = y * columns + x;
           animationListById.Add(id.ToString(), new List<TilesetTileAnimation>());
 
+          var specialTile = tiledTsx.Tile.FirstOrDefault(t => t.Id == id.ToString());
+
+          var boxColiderDefinitions = new List<BoxColiderDefinitions>();
+          if (specialTile != null && specialTile.Objectgroup != null)
+          {
+            specialTile.Objectgroup.Object.ForEach(o =>
+            {
+              boxColiderDefinitions.Add(new BoxColiderDefinitions
+              {
+                Position = new Vector2(float.Parse(o.X) / tileWidth, float.Parse(o.Y) / tileHeight),
+                Size = new Vector2(float.Parse(o.Width) / tileWidth, float.Parse(o.Height) / tileHeight)
+              });
+            });
+          }
+
           Tiles.Add(id.ToString(), new TilesetTile(
             id.ToString(),
             new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight),
-            animationListById[id.ToString()]
+            animationListById[id.ToString()],
+            boxColiderDefinitions
           ));
         }
 

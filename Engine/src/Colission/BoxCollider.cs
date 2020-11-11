@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CraftEnd.Engine
+namespace CraftEnd.Engine.Colission
 {
-  public class BoxCollider : Component
+  public class BoxCollider : Collider
   {
     public bool RenderBounds { get; set; } = false;
     public Vector2 Size { get; set; }
