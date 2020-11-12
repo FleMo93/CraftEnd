@@ -11,6 +11,7 @@ namespace CraftEnd.CoreGame
   {
     private SpriteAnimator characterAnimator;
     private float speed = 1;
+    private Rigidbody rigidbody;
 
     public void LoadContent(DungenonTilesetII0x72Loader content, Texture2D characterShadow)
     {
@@ -28,11 +29,10 @@ namespace CraftEnd.CoreGame
       var shadowSprite = new SpriteStatic(this, characterShadow, null, new Vector2(0, 0f), RenderPivot.Center);
       spriteRenderer.Sprites.Add(shadowSprite);
       spriteRenderer.Sprites.Add(characterAnimator);
-      // spriteRenderer.ShowEntityPositionAxis = true;
 
-      var boxCollider = new BoxCollider(new Vector2(1, 0.4f), new Vector2(-0.5f, -0.4f));
-      // boxCollider.RenderBounds = true;
-      this.AddComponent(boxCollider);
+      var collider = new BoxCollider(new Vector2(1, 0.4f), new Vector2(-0.5f, -0.4f), false);
+      this.AddComponent(collider);
+      this.AddComponent(this.rigidbody = new Rigidbody(collider));
     }
 
     public override void Update(GameTime gameTime)
@@ -52,8 +52,7 @@ namespace CraftEnd.CoreGame
       if (Keyboard.GetState().IsKeyDown(Keys.D))
         horizontalMovement += 1;
 
-      this.Position.X += (float)(horizontalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
-      this.Position.Y += (float)(verticalMovement * gameTime.ElapsedGameTime.TotalSeconds * speed);
+      this.rigidbody.Velocity = new Vector2(horizontalMovement, verticalMovement) * speed;
 
       if (verticalMovement != 0 || horizontalMovement != 0 && this.characterAnimator.CurrentAnimationName != "run")
         this.characterAnimator.SetAnimation("run");

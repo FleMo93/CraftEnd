@@ -5,13 +5,13 @@ namespace CraftEnd.Engine.Colission
 {
   public class BoxCollider : Collider
   {
-    public bool RenderBounds { get; set; } = false;
+    public bool RenderBounds { get; set; } = true;
     public Vector2 Size { get; set; }
     public Vector2 Position { get; set; }
 
     private Texture2D boundingTexture = null;
 
-    public BoxCollider(Vector2 size, Vector2 position)
+    public BoxCollider(Vector2 size, Vector2 position, bool isStatic)
     {
       this.Size = size;
       this.Position = position;
@@ -39,7 +39,7 @@ namespace CraftEnd.Engine.Colission
             if (y != 0 && y != sizeY - 1 && x != 0 && x != sizeX - 1)
               continue;
 
-            color[y * sizeX + x] = Color.GreenYellow;
+            color[y * sizeX + x] = Color.White;
           }
         }
 
@@ -56,7 +56,7 @@ namespace CraftEnd.Engine.Colission
           this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
           this.Position.Y * renderLayer.PixelMetersMultiplier +
           renderLayer.Position.Y * renderLayer.PixelMetersMultiplier),
-        null, Color.White, 0, new Vector2(), new Vector2(0.1f * renderLayer.PixelMetersMultiplier, 0.1f * renderLayer.PixelMetersMultiplier), SpriteEffects.None, 1);
+        null, Color.LimeGreen, 0, new Vector2(), new Vector2(0.1f * renderLayer.PixelMetersMultiplier, 0.1f * renderLayer.PixelMetersMultiplier), SpriteEffects.None, 1);
       base.Draw(gameTime, renderLayer, spriteBatch);
     }
   }

@@ -13,8 +13,10 @@ namespace CraftEnd.Engine
         throw new System.Exception("Component already has an owner entity");
 
       this.Entity = entity;
+      this.OwnerEntitySet(entity);
     }
 
+    internal virtual void OwnerEntitySet(Entity owner) {}
     internal virtual void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch) { }
     internal virtual void Update(GameTime gameTime) { }
     internal virtual void Destroy() { }

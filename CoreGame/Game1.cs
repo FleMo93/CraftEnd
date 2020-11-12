@@ -22,7 +22,12 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
-      this.player.Position = new Vector3(2, 3, 0);
+      this.player.Position = new Vector3(0, 0f, 0);
+
+      new EmptyCollider().Position = new Vector3(0, 8, 0);
+      new EmptyCollider().Position = new Vector3(8, 0, 0);
+      new EmptyCollider().Position = new Vector3(0, -8, 0);
+      new EmptyCollider().Position = new Vector3(-8, 0, 0);
     }
 
     protected override void Initialize()
@@ -40,8 +45,8 @@ namespace CraftEnd
       this.camera.RenderPivot = RenderPivot.Center;
       var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
       var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
-      var devLevel = new Level(devLevelMap);
-      Entity.Entities.Insert(0, devLevel);
+      // var devLevel = new Level(devLevelMap);
+      // Entity.Entities.Insert(0, devLevel);
 
       Entity.Entities.ForEach((Entity entity) =>
       {
