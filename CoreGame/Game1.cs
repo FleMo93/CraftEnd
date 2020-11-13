@@ -22,12 +22,12 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
-      this.player.Position = new Vector3(0, 0f, 0);
+      this.player.Position = new Vector3(0, 0, 0);
 
-      new EmptyCollider().Position = new Vector3(0, 8, 0);
-      new EmptyCollider().Position = new Vector3(8, 0, 0);
-      new EmptyCollider().Position = new Vector3(0, -8, 0);
-      new EmptyCollider().Position = new Vector3(-8, 0, 0);
+      new EmptyCollider("Bottom").Position = new Vector3(0, 6, 0);
+      new EmptyCollider("Right").Position = new Vector3(6, 0, 0);
+      new EmptyCollider("Top").Position = new Vector3(0, -6, 0);
+      new EmptyCollider("Left").Position = new Vector3(-6, 0, 0);
     }
 
     protected override void Initialize()

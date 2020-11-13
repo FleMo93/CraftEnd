@@ -29,8 +29,11 @@ namespace CraftEnd.Engine.Colission
       var aPosition = new Vector2(a.Entity.Position.X, a.Entity.Position.Y) + a.Position;
       var bPosition = new Vector2(b.Entity.Position.X, b.Entity.Position.Y) + b.Position;
 
-      return (Math.Abs((aPosition.X + a.Size.X / 2) - (bPosition.X + b.Size.X / 2)) * 2 < (a.Size.X + b.Size.X)) &&
-          (Math.Abs((aPosition.Y + a.Size.Y / 2) - (bPosition.Y + b.Size.Y / 2)) * 2 < (a.Size.Y + b.Size.Y));
+      if (aPosition.Y + a.Size.Y < bPosition.Y || aPosition.Y > bPosition.Y + b.Size.Y ||
+        aPosition.X > bPosition.X + b.Size.X || aPosition.X + a.Size.X < bPosition.X)
+        return false;
+
+      return true;
     }
 
     public Collider()

@@ -46,23 +46,23 @@ namespace CraftEnd.Engine.Colission
       var oHitB = oHitT + hit.Size.Y;
 
       if (b >= hitT && ob < oHitT)
-      { 
-        this.Entity.Position.Y = hitT - thisBoxCollider.Position.Y - thisBoxCollider.Size.Y - 0.1f;
+      {
+        this.Entity.Position.Y = hitT - thisBoxCollider.Position.Y - thisBoxCollider.Size.Y - 0.001f;
         this.Velocity.Y = hit.Rigidbody != null ? hit.Rigidbody.Velocity.Y : 0;
       }
       else if (t <= hitB && ot > oHitB)
       {
-        // this.setTop(rectangle.b + 0.1);
+        this.Entity.Position.Y = hitB + thisBoxCollider.Size.Y + 0.001f;
         this.Velocity.Y = hit.Rigidbody != null ? hit.Rigidbody.Velocity.Y : 0;
       }
       else if (r >= hitL && or < oHitL)
       {
-        // this.setRight(rectangle.l - 0.1);
+        this.Entity.Position.X = hitL - thisBoxCollider.Position.X - thisBoxCollider.Size.X - 0.001f;
         this.Velocity.X = hit.Rigidbody != null ? hit.Rigidbody.Velocity.X : 0;
       }
       else if (l <= hitR && ol > oHitR)
       {
-        // this.setLeft(rectangle.r + 0.1);
+        this.Entity.Position.X = hitR + thisBoxCollider.Position.X + thisBoxCollider.Size.X + 0.001f;
         this.Velocity.X = hit.Rigidbody != null ? hit.Rigidbody.Velocity.X : 0;
       }
     }

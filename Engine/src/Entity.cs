@@ -9,13 +9,15 @@ namespace CraftEnd.Engine
   {
     public static List<Entity> Entities = new List<Entity>();
 
+    public readonly string Name;
     public List<Entity> Children = new List<Entity>();
     public Vector3 Position = new Vector3(0, 0, 0);
     public Vector2 Scale = new Vector2(1, 1);
     internal List<Component> Components = new List<Component>();
 
-    public Entity()
+    public Entity(string name = "")
     {
+      this.Name = name;
       Entities.Add(this);
     }
 
