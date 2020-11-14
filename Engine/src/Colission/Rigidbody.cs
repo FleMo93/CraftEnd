@@ -77,9 +77,9 @@ namespace CraftEnd.Engine.Colission
       System.Collections.Generic.IEnumerable<Collision> col;
       while ((col = this.collider.GetCollsions()).Count() > 0)
       {
-        var firstCollider = col.OrderByDescending(c => c.ColissionArea).First();
+        var firstCollider = col.OrderByDescending(c => c.ColissionArea).First().ColliderTarget;
         if (this.collider.GetType() == typeof(BoxCollider) && firstCollider.GetType() == typeof(BoxCollider))
-          Update(gameTime, (BoxCollider)this.collider, (BoxCollider)firstCollider.ColliderTarget);
+          Update(gameTime, (BoxCollider)this.collider, (BoxCollider)firstCollider);
         else
           throw new System.NotImplementedException("Colldier type not supported");
       }
