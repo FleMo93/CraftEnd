@@ -41,16 +41,16 @@ namespace CraftEnd.Engine.Colission
       Collider.Colliders.Add(this);
     }
 
-    public IEnumerable<Collider> GetOverlapCollider()
+    public IEnumerable<Collision> GetCollsions()
     {
-      List<Collider> collisionList = new List<Collider>();
+      List<Collision> collisionList = new List<Collision>();
       foreach (var collider in Collider.Colliders)
       {
         if (collider == this)
           continue;
 
         if (Collider.IsColliding(this, collider))
-          collisionList.Add(collider);
+          collisionList.Add(new Collision(this, collider));
       }
 
       return collisionList;

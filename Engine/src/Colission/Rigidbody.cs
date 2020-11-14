@@ -74,12 +74,12 @@ namespace CraftEnd.Engine.Colission
         this.Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds,
         this.Entity.Position.Z);
 
-      var collisions = this.collider.GetOverlapCollider();
-
-      if (collisions.Count() > 0)
+      System.Collections.Generic.IEnumerable<Collision> col;
+      while ((col = this.collider.GetCollsions()).Count() > 0)
       {
-        if (this.collider.GetType() == typeof(BoxCollider) && collisions.First().GetType() == typeof(BoxCollider))
-          Update(gameTime, (BoxCollider)this.collider, (BoxCollider)collisions.First());
+        var firstCollider = col.OrderByDescending(c => c.ColissionArea).First();
+        if (this.collider.GetType() == typeof(BoxCollider) && firstCollider.GetType() == typeof(BoxCollider))
+          Update(gameTime, (BoxCollider)this.collider, (BoxCollider)firstCollider.ColliderTarget);
         else
           throw new System.NotImplementedException("Colldier type not supported");
       }
