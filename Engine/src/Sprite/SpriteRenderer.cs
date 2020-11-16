@@ -17,12 +17,12 @@ namespace CraftEnd.Engine
       this.Sprites.ForEach(r => r.Update(gameTime));
     }
 
-    internal override void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch)
+    internal override void Draw(GameTime gameTime, Camera camera, SpriteBatch spriteBatch)
     {
       foreach (var t in this.Sprites)
       {
-        var height = this.Entity.Scale.Y * t.Scale.Y * renderLayer.PixelMetersMultiplier;
-        var width = this.Entity.Scale.X * t.Scale.X * renderLayer.PixelMetersMultiplier;
+        var height = this.Entity.Scale.Y * t.Scale.Y * camera.PixelMetersMultiplier;
+        var width = this.Entity.Scale.X * t.Scale.X * camera.PixelMetersMultiplier;
 
         if (t.SpriteCoordinates.HasValue)
           if (t.SpriteCoordinates.Value.Height > t.SpriteCoordinates.Value.Width)
@@ -37,10 +37,8 @@ namespace CraftEnd.Engine
             height = height * t.Texture.Width / t.Texture.Height;
         }
 
-        var x = this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
-            renderLayer.Position.X * renderLayer.PixelMetersMultiplier;
-        var y = this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
-            renderLayer.Position.Y * renderLayer.PixelMetersMultiplier;
+        var x = this.Entity.Position.X * camera.PixelMetersMultiplier;
+        var y = this.Entity.Position.Y * camera.PixelMetersMultiplier;
 
         switch (t.RenderPivot)
         {
@@ -54,8 +52,8 @@ namespace CraftEnd.Engine
             break;
         }
 
-        x += t.OffsetPosition.X * renderLayer.PixelMetersMultiplier;
-        y += -t.OffsetPosition.Y * renderLayer.PixelMetersMultiplier;
+        x += t.OffsetPosition.X * camera.PixelMetersMultiplier;
+        y += -t.OffsetPosition.Y * camera.PixelMetersMultiplier;
 
         spriteBatch.Draw(t.Texture, new Rectangle
         {
@@ -64,7 +62,7 @@ namespace CraftEnd.Engine
           Height = (int)height,
           Width = (int)width
         }, t.SpriteCoordinates, Color.White, 0, new Vector2(0, 0),
-        t.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+          t.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
 
         if (this.ShowSpritePositionAxis && Renderer.DebugPositionTexture != null)
@@ -73,8 +71,8 @@ namespace CraftEnd.Engine
           {
             X = (int)x,
             Y = (int)y,
-            Height = (int)renderLayer.PixelMetersMultiplier,
-            Width = (int)renderLayer.PixelMetersMultiplier
+            Height = (int)camera.PixelMetersMultiplier,
+            Width = (int)camera.PixelMetersMultiplier
           }, null, Color.White, 0, new Vector2(), SpriteEffects.None, 1);
         }
       }
@@ -83,12 +81,10 @@ namespace CraftEnd.Engine
       {
         spriteBatch.Draw(Renderer.DebugPositionTexture, new Rectangle
         {
-          X = (int)(this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
-            renderLayer.Position.X * renderLayer.PixelMetersMultiplier),
-          Y = (int)(this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
-            renderLayer.Position.Y * renderLayer.PixelMetersMultiplier),
-          Height = (int)renderLayer.PixelMetersMultiplier,
-          Width = (int)renderLayer.PixelMetersMultiplier,
+          X = (int)(this.Entity.Position.X * camera.PixelMetersMultiplier),
+          Y = (int)(this.Entity.Position.Y * camera.PixelMetersMultiplier),
+          Height = (int)camera.PixelMetersMultiplier,
+          Width = (int)camera.PixelMetersMultiplier,
         }, null, Color.White, 0, new Vector2(), SpriteEffects.None, 1);
       }
     }

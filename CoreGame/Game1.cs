@@ -12,6 +12,7 @@ namespace CraftEnd
     private GraphicsDeviceManager _graphics;
     private Player player;
     private Camera camera;
+    // private LightSource lightSource;
 
     public Game1()
     {
@@ -22,7 +23,8 @@ namespace CraftEnd
       IsMouseVisible = true;
 
       this.player = new Player();
-      this.player.Position = new Vector3(4, 3, 0);
+      this.player.Position = new Vector3(2, 2, 0);
+      // lightSource = new LightSource();
     }
 
     protected override void Initialize()
@@ -35,8 +37,8 @@ namespace CraftEnd
     protected override void LoadContent()
     {
       Renderer.LoadContent(GraphicsDevice, _graphics, Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCoordinateAxis), Content.Load<SpriteFont>("Arial"));
-      var renderLayer = Renderer.CreateRenderLayer(25);
-      this.camera = renderLayer.Camera;
+      this.camera = new Camera(_graphics, GraphicsDevice);
+      this.camera.Zoom = 25;
       this.camera.RenderPivot = RenderPivot.Center;
       var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
       var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
@@ -46,15 +48,18 @@ namespace CraftEnd
       Entity.Entities.ForEach((Entity entity) =>
       {
         entity.LoadContent(Content);
-        renderLayer.AddEntity(entity);
+        this.camera.AddEntity(entity);
       });
 
       var dungeonTileSet0x72Loader = new DungenonTilesetII0x72Loader();
       dungeonTileSet0x72Loader.LoadContent(Content);
       var characterShadow = Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCharacterShadow);
       this.player.LoadContent(dungeonTileSet0x72Loader, characterShadow);
+      // lightSource.Position = new Vector3(-2, -3, 2);
+      // this.lightSource.LoadContent(dungeonTileSet0x72Loader);
 
-      var guiLayer = Renderer.CreateRenderLayer(20);
+      var guiLayer = new Camera(_graphics, GraphicsDevice);
+      guiLayer.Zoom = 20;
       var uiLife = new Life();
       guiLayer.AddEntity(uiLife);
       uiLife.LoadContent(dungeonTileSet0x72Loader);
@@ -68,7 +73,12 @@ namespace CraftEnd
         Exit();
 
       Entity.Entities.ForEach((Entity entity) => entity.Update(gameTime));
-      this.camera.Position = this.player.Position;
+      this.camera.Position.X = this.player.Position.X;
+      this.camera.Position.Y = this.player.Position.Y;
+      // this.lightSource.Position.X = Mouse.GetState().Position.X;
+      // this.lightSource.Position.Y = Mouse.GetState().Position.Y;
+      // System.Console.WriteLine(Mouse.GetState().Position);
+      // System.Console.WriteLine(this.camera.ScreenToWorldPosition(330, 380));
 
       base.Update(gameTime);
     }

@@ -11,7 +11,7 @@ namespace CraftEnd.Engine.Colission
 
     private Texture2D boundingTexture = null;
 
-    public BoxCollider(Vector2 size, Vector2 position, bool isStatic)
+    public BoxCollider(Vector2 size, Vector2 position)
     {
       this.Size = size;
       this.Position = position;
@@ -22,7 +22,7 @@ namespace CraftEnd.Engine.Colission
       base.Update(gameTime);
     }
 
-    internal override void Draw(GameTime gameTime, RenderLayer renderLayer, SpriteBatch spriteBatch)
+    internal override void Draw(GameTime gameTime, Camera camera, SpriteBatch spriteBatch)
     {
       if (!this.RenderBounds)
         return;
@@ -50,14 +50,13 @@ namespace CraftEnd.Engine.Colission
       spriteBatch.Draw(
         this.boundingTexture,
         new Vector2(
-          this.Entity.Position.X * renderLayer.PixelMetersMultiplier +
-          this.Position.X * renderLayer.PixelMetersMultiplier +
-          renderLayer.Position.X * renderLayer.PixelMetersMultiplier,
-          this.Entity.Position.Y * renderLayer.PixelMetersMultiplier +
-          this.Position.Y * renderLayer.PixelMetersMultiplier +
-          renderLayer.Position.Y * renderLayer.PixelMetersMultiplier),
-        null, Color.LimeGreen, 0, new Vector2(), new Vector2(0.1f * renderLayer.PixelMetersMultiplier, 0.1f * renderLayer.PixelMetersMultiplier), SpriteEffects.None, 1);
-      base.Draw(gameTime, renderLayer, spriteBatch);
+          this.Entity.Position.X * camera.PixelMetersMultiplier +
+          this.Position.X * camera.PixelMetersMultiplier,
+          this.Entity.Position.Y * camera.PixelMetersMultiplier +
+          this.Position.Y * camera.PixelMetersMultiplier
+          ),
+        null, Color.LimeGreen, 0, new Vector2(0, 0), new Vector2(0.1f * camera.PixelMetersMultiplier, 0.1f * camera.PixelMetersMultiplier), SpriteEffects.None, 1);
+      base.Draw(gameTime, camera, spriteBatch);
     }
   }
 }
