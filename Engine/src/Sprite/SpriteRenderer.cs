@@ -21,71 +21,58 @@ namespace CraftEnd.Engine
     {
       foreach (var t in this.Sprites)
       {
-        var height = this.Entity.Scale.Y * t.Scale.Y * camera.PixelMetersMultiplier;
-        var width = this.Entity.Scale.X * t.Scale.X * camera.PixelMetersMultiplier;
-
-        if (t.SpriteCoordinates.HasValue)
-          if (t.SpriteCoordinates.Value.Height > t.SpriteCoordinates.Value.Width)
-            width = width * t.SpriteCoordinates.Value.Width / t.SpriteCoordinates.Value.Height;
-          else
-            height = height * t.SpriteCoordinates.Value.Width / t.SpriteCoordinates.Value.Height;
-        else
-        {
-          if (t.Texture.Height > t.Texture.Width)
-            width = width * t.Texture.Height / t.Texture.Width;
-          else
-            height = height * t.Texture.Width / t.Texture.Height;
-        }
-
-        var x = this.Entity.Position.X * camera.PixelMetersMultiplier;
-        var y = this.Entity.Position.Y * camera.PixelMetersMultiplier;
+        var x = this.Entity.Position.X;
+        var y = this.Entity.Position.Y;
 
         switch (t.RenderPivot)
         {
           case RenderPivot.Center:
-            x = x - width / 2;
-            y = y - height / 2;
+            x = x - t.Scale.X / 2;
+            y = y - t.Scale.Y / 2;
             break;
           case RenderPivot.BottomCenter:
-            x = x - width / 2;
-            y = y - height;
+            x = x - t.Scale.X / 2;
+            y = y - t.Scale.Y;
             break;
+          case RenderPivot.TopLeft:
+            break;
+          default:
+            throw new System.NotImplementedException();
         }
 
-        x += t.OffsetPosition.X * camera.PixelMetersMultiplier;
-        y += -t.OffsetPosition.Y * camera.PixelMetersMultiplier;
+        x += t.OffsetPosition.X;
+        y += -t.OffsetPosition.Y;
 
-        spriteBatch.Draw(t.Texture, new Rectangle
-        {
-          X = (int)x,
-          Y = (int)y,
-          Height = (int)height,
-          Width = (int)width
-        }, t.SpriteCoordinates, Color.White, 0, new Vector2(0, 0),
+        var width = 1f * t.Entity.Scale.X * t.Scale.X / (t.SpriteCoordinates.HasValue ? t.SpriteCoordinates.Value.Width : t.Texture.Width);
+        var height = 1f * t.Entity.Scale.Y * t.Scale.Y / (t.SpriteCoordinates.HasValue ? t.SpriteCoordinates.Value.Height : t.Texture.Height);
+
+        spriteBatch.Draw(t.Texture, new Vector2(x, y),
+          t.SpriteCoordinates, Color.White, 0, new Vector2(0, 0),
+          new Vector2(width, height),
           t.FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-
 
         if (this.ShowSpritePositionAxis && Renderer.DebugPositionTexture != null)
         {
-          spriteBatch.Draw(Renderer.DebugPositionTexture, new Rectangle
-          {
-            X = (int)x,
-            Y = (int)y,
-            Height = (int)camera.PixelMetersMultiplier,
-            Width = (int)camera.PixelMetersMultiplier
-          }, null, Color.White, 0, new Vector2(), SpriteEffects.None, 1);
+          spriteBatch.Draw(Renderer.DebugPositionTexture,
+            new Vector2(this.Entity.Position.X, this.Entity.Position.Y),
+            null, Color.White, 0, new Vector2(),
+            new Vector2(
+              0.5f / Renderer.DebugPositionTexture.Width,
+              0.5f / Renderer.DebugPositionTexture.Height),
+            SpriteEffects.None, 1);
         }
       }
 
       if (this.ShowEntityPositionAxis && Renderer.DebugPositionTexture != null)
       {
-        spriteBatch.Draw(Renderer.DebugPositionTexture, new Rectangle
-        {
-          X = (int)(this.Entity.Position.X * camera.PixelMetersMultiplier),
-          Y = (int)(this.Entity.Position.Y * camera.PixelMetersMultiplier),
-          Height = (int)camera.PixelMetersMultiplier,
-          Width = (int)camera.PixelMetersMultiplier,
-        }, null, Color.White, 0, new Vector2(), SpriteEffects.None, 1);
+        spriteBatch.Draw(
+          Renderer.DebugPositionTexture,
+          new Vector2(this.Entity.Position.X, this.Entity.Position.Y),
+          null, Color.White, 0, new Vector2(),
+          new Vector2(
+            0.5f / Renderer.DebugPositionTexture.Width,
+            0.5f / Renderer.DebugPositionTexture.Height),
+          SpriteEffects.None, 1);
       }
     }
   }

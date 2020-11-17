@@ -5,7 +5,7 @@ namespace CraftEnd.Engine.Colission
 {
   public class BoxCollider : Collider
   {
-    public bool RenderBounds { get; set; } = true;
+    public bool RenderBounds { get; set; } = false;
     public Vector2 Size { get; set; }
     public Vector2 Position { get; set; }
 
@@ -27,35 +27,34 @@ namespace CraftEnd.Engine.Colission
       if (!this.RenderBounds)
         return;
 
-      var sizeX = (int)(this.Size.X * 10);
-      var sizeY = (int)(this.Size.Y * 10);
-      if (this.boundingTexture == null || this.boundingTexture.Width != sizeX || this.boundingTexture.Height != sizeY)
+      var textureSizeX = (int)(this.Size.X * 10);
+      var textureSizeY = (int)(this.Size.Y * 10);
+      if (this.boundingTexture == null || this.boundingTexture.Width != textureSizeX || this.boundingTexture.Height != textureSizeY)
       {
-        var color = new Color[sizeX * sizeY];
-        for (int y = 0; y < sizeY; y++)
+        var color = new Color[textureSizeX * textureSizeY];
+        for (int y = 0; y < textureSizeY; y++)
         {
-          for (int x = 0; x < sizeX; x++)
+          for (int x = 0; x < textureSizeX; x++)
           {
-            if (y != 0 && y != sizeY - 1 && x != 0 && x != sizeX - 1)
+            if (y != 0 && y != textureSizeY - 1 && x != 0 && x != textureSizeX - 1)
               continue;
 
-            color[y * sizeX + x] = Color.White;
+            color[y * textureSizeX + x] = Color.White;
           }
         }
 
-        this.boundingTexture = new Texture2D(spriteBatch.GraphicsDevice, sizeX, sizeY);
+        this.boundingTexture = new Texture2D(spriteBatch.GraphicsDevice, textureSizeX, textureSizeY);
         this.boundingTexture.SetData<Color>(color);
       }
 
       spriteBatch.Draw(
         this.boundingTexture,
         new Vector2(
-          this.Entity.Position.X * camera.PixelMetersMultiplier +
-          this.Position.X * camera.PixelMetersMultiplier,
-          this.Entity.Position.Y * camera.PixelMetersMultiplier +
-          this.Position.Y * camera.PixelMetersMultiplier
-          ),
-        null, Color.LimeGreen, 0, new Vector2(0, 0), new Vector2(0.1f * camera.PixelMetersMultiplier, 0.1f * camera.PixelMetersMultiplier), SpriteEffects.None, 1);
+          this.Entity.Position.X + this.Position.X,
+          this.Entity.Position.Y + this.Position.Y),
+        null, Color.LimeGreen, 0, new Vector2(0, 0),
+        new Vector2(0.1f, 0.1f),
+        SpriteEffects.None, 1);
       base.Draw(gameTime, camera, spriteBatch);
     }
   }

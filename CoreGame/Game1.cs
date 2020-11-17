@@ -38,7 +38,7 @@ namespace CraftEnd
     {
       Renderer.LoadContent(GraphicsDevice, _graphics, Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCoordinateAxis), Content.Load<SpriteFont>("Arial"));
       this.camera = new Camera(_graphics, GraphicsDevice);
-      this.camera.Zoom = 25;
+      this.camera.Zoom = 40;
       this.camera.RenderPivot = RenderPivot.Center;
       var tiledTileSet = new TiledTileset(CraftEnd.CoreGame.Content.Content.FilePathTiled0x72DungenTileset, Content);
       var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
@@ -59,7 +59,7 @@ namespace CraftEnd
       // this.lightSource.LoadContent(dungeonTileSet0x72Loader);
 
       var guiLayer = new Camera(_graphics, GraphicsDevice);
-      guiLayer.Zoom = 20;
+      guiLayer.Zoom = 60;
       var uiLife = new Life();
       guiLayer.AddEntity(uiLife);
       uiLife.LoadContent(dungeonTileSet0x72Loader);
