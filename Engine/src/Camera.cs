@@ -8,8 +8,6 @@ namespace CraftEnd.Engine
   public class Camera
   {
     internal static List<Camera> Cameras = new List<Camera>();
-
-    internal float PixelMetersMultiplier { get; } = 1;
     public Vector2 Position;
     public float Zoom = 1;
     private GraphicsDeviceManager _graphicsDeviceManager;
@@ -61,16 +59,21 @@ namespace CraftEnd.Engine
       spriteBatch.End();
     }
 
-    // public Vector2 ScreenToWorldPosition(float x, float y)
-    // {
-    //   return ScreenToWorldPosition(new Vector2(x, y));
-    // }
+    public Vector2 ScreenToWorldPosition(float x, float y)
+    {
+      return ScreenToWorldPosition(new Vector2(x, y));
+    }
 
-    // public Vector2 ScreenToWorldPosition(Vector2 point)
-    // {
-    //   Matrix invertedMatrix = Matrix.Invert(this.scaleMatrix);
-    //   return Vector2.Transform(point, invertedMatrix);
-    // }
+    public Vector2 ScreenToWorldPosition(Point point)
+    {
+      return ScreenToWorldPosition(new Vector2(point.X, point.Y));
+    }
+
+    public Vector2 ScreenToWorldPosition(Vector2 point)
+    {
+      Matrix invertedMatrix = Matrix.Invert(this.transformMatrix);
+      return Vector2.Transform(point, invertedMatrix);
+    }
 
     public void AddEntity(Entity entity)
     {

@@ -9,5 +9,6 @@ namespace CraftEnd.CoreGame.Content
     public static string Texture2D0x72DungeonTilesetSpriteSheet { get; } = "0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3";
     public static string Texture2DCharacterShadow { get; } = "MyContent/CharacterShadow";
     public static string Texture2DCoordinateAxis { get; } = "MyContent/CoordinateAxis";
+    public static string Texture2DCursor { get; } = "MyContent/Cursor";
   }
 }

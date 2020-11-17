@@ -7,7 +7,7 @@ namespace CraftEnd.CoreGame
 {
   public class LevelTile : Entity
   {
-    public LevelTile(Content.Loader.MapTile mapTile, Texture2D mapTextureAtlas)
+    public LevelTile(Content.Loader.MapTile mapTile, Texture2D mapTextureAtlas): base()
     {
       this.Position = mapTile.Position;
       var spriteRenderer = new SpriteRenderer();
