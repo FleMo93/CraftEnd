@@ -1,6 +1,7 @@
 ﻿using CraftEnd.CoreGame;
 using CraftEnd.CoreGame.Content.Loader;
 using CraftEnd.Engine;
+using CraftEnd.Engine.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +14,7 @@ namespace CraftEnd
     private Player player;
     private Camera camera;
     private Cursor cursor;
+    private PositionAxis positionAxis;
 
     public Game1()
     {
@@ -25,6 +27,7 @@ namespace CraftEnd
       this.player = new Player();
       this.player.Position = new Vector3(2, 2, 0);
       this.cursor = new Cursor();
+      this.positionAxis = new PositionAxis();
     }
 
     protected override void Initialize()
@@ -49,6 +52,7 @@ namespace CraftEnd
       devLevel.Children.ForEach(t => this.camera.AddEntity(t));
 
       this.camera.AddEntity(this.player);
+      this.camera.AddEntity(this.positionAxis);
       Entity.Entities.ForEach((Entity entity) => entity.LoadContent(Content));
 
       var dungeonTileSet0x72Loader = new DungenonTilesetII0x72Loader();
@@ -76,6 +80,26 @@ namespace CraftEnd
       Entity.Entities.ForEach((Entity entity) => entity.Update(gameTime));
       this.camera.Position.X = this.player.Position.X;
       this.camera.Position.Y = this.player.Position.Y;
+
+      RaycastHit hit;
+      Vector2 startPosition = new Vector2(this.player.Position.X, this.player.Position.Y);
+      Vector2 endPosition = this.camera.ScreenToWorldPosition(Mouse.GetState().X, Mouse.GetState().Y);
+
+      if (Raycast.Cast(
+        startPosition,
+        Vector2.Normalize(endPosition - startPosition),
+        Vector2.Distance(startPosition, endPosition),
+        out hit))
+      {
+        this.positionAxis.Position.X = hit.Point.X;
+        this.positionAxis.Position.Y = hit.Point.Y;
+      }
+      else
+      {
+        this.positionAxis.Position.X = float.MaxValue;
+        this.positionAxis.Position.Y = float.MaxValue;
+      }
+
       base.Update(gameTime);
     }
 

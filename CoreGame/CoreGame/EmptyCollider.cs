@@ -1,5 +1,5 @@
 using CraftEnd.Engine;
-using CraftEnd.Engine.Colission;
+using CraftEnd.Engine.Physics;
 using Microsoft.Xna.Framework;
 
 namespace CraftEnd.CoreGame

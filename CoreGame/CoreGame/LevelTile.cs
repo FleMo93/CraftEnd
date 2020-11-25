@@ -35,7 +35,7 @@ namespace CraftEnd.CoreGame
       spriteRenderer.Sprites.Add(sprite);
 
       foreach (var boxColliderDefinition in mapTile.TilesetTile.BoxColiderDefinitions)
-        this.AddComponent(new Engine.Colission.BoxCollider(
+        this.AddComponent(new Engine.Physics.BoxCollider(
           boxColliderDefinition.Size,
           boxColliderDefinition.Position - new Vector2(0.5f, 1) - new Vector2(0, mapTile.YOffset)));
     }

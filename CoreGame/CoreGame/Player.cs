@@ -1,6 +1,6 @@
 using CraftEnd.CoreGame.Content.Loader;
 using CraftEnd.Engine;
-using CraftEnd.Engine.Colission;
+using CraftEnd.Engine.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

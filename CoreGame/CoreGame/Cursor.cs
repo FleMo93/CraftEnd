@@ -1,4 +1,3 @@
-using CraftEnd.CoreGame.Content.Loader;
 using CraftEnd.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,6 +28,8 @@ namespace CraftEnd.CoreGame
       var mouseWorldPosition = this.camera.ScreenToWorldPosition(Mouse.GetState().Position);
       this.Position.X = mouseWorldPosition.X;
       this.Position.Y = mouseWorldPosition.Y;
+
+      base.Update(gameTime);
     }
   }
 }
