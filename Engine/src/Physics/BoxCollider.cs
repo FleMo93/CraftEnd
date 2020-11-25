@@ -1,13 +1,44 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CraftEnd.Engine.Colission
+namespace CraftEnd.Engine.Physics
 {
   public class BoxCollider : Collider
   {
     public bool RenderBounds { get; set; } = false;
     public Vector2 Size { get; set; }
     public Vector2 Position { get; set; }
+    public Vector2 TopLeft
+    {
+      get
+      {
+        return new Vector2(Entity.Position.X + Position.X, Entity.Position.Y + Position.Y);
+      }
+    }
+    public Vector2 TopRight
+    {
+      get
+      {
+        var position = new Vector2(Position.X + Entity.Position.X, Position.Y + Entity.Position.Y);
+        return position + (Size * new Vector2(1, 0));
+      }
+    }
+    public Vector2 BottomLeft
+    {
+      get
+      {
+        var position = new Vector2(Position.X + Entity.Position.X, Position.Y + Entity.Position.Y);
+        return position + (Size * new Vector2(0, 1));
+      }
+    }
+    public Vector2 BottomRight
+    {
+      get
+      {
+        var position = new Vector2(Position.X + Entity.Position.X, Position.Y + Entity.Position.Y);
+        return position + Size;
+      }
+    }
 
     private Texture2D boundingTexture = null;
 
@@ -17,7 +48,7 @@ namespace CraftEnd.Engine.Colission
       this.Position = position;
     }
 
-    internal override void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
       base.Update(gameTime);
     }

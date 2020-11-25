@@ -12,7 +12,7 @@ namespace CraftEnd.Engine
     public bool ShowSpritePositionAxis { get; set; } = false;
     public List<Sprite> Sprites = new List<Sprite>();
 
-    internal override void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
       this.Sprites.ForEach(r => r.Update(gameTime));
     }
@@ -59,7 +59,7 @@ namespace CraftEnd.Engine
             new Vector2(
               0.5f / Renderer.DebugPositionTexture.Width,
               0.5f / Renderer.DebugPositionTexture.Height),
-            SpriteEffects.None, 1);
+            SpriteEffects.None, 0);
         }
       }
 
@@ -72,7 +72,7 @@ namespace CraftEnd.Engine
           new Vector2(
             0.5f / Renderer.DebugPositionTexture.Width,
             0.5f / Renderer.DebugPositionTexture.Height),
-          SpriteEffects.None, 1);
+          SpriteEffects.None, 0);
       }
     }
   }

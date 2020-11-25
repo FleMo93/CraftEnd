@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 
-namespace CraftEnd.Engine.Colission
+namespace CraftEnd.Engine.Physics
 {
   public class Collision
   {

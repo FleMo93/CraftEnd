@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 
-namespace CraftEnd.Engine.Colission
+namespace CraftEnd.Engine.Physics
 {
   public class Rigidbody : Component
   {
@@ -67,7 +67,7 @@ namespace CraftEnd.Engine.Colission
       }
     }
 
-    internal override void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
       this.Entity.Position = this.Entity.Position + new Vector3(
         this.Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds,

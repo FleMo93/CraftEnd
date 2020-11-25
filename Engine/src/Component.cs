@@ -18,7 +18,7 @@ namespace CraftEnd.Engine
 
     internal virtual void OwnerEntitySet(Entity owner) {}
     internal virtual void Draw(GameTime gameTime, Camera camera, SpriteBatch spriteBatch) { }
-    internal virtual void Update(GameTime gameTime) { }
+    public virtual void Update(GameTime gameTime) { }
     internal virtual void Destroy() { }
   }
 }

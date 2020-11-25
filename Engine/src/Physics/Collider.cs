@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace CraftEnd.Engine.Colission
+namespace CraftEnd.Engine.Physics
 {
   public class Collider : Component
   {
     public Rigidbody Rigidbody { get; internal set; }
 
-    private static List<Collider> Colliders;
+    internal static List<Collider> Colliders;
     static Collider()
     {
       Colliders = new List<Collider>();
