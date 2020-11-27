@@ -1,8 +1,8 @@
 using CraftEnd.Engine;
 
-namespace CraftEnd.CoreGame
+namespace CraftEnd.CoreGame.Debug
 {
-  public class PositionAxis: Entity
+  public class PositionAxis : Entity
   {
     public PositionAxis()
     {

@@ -24,14 +24,11 @@ namespace CraftEnd.CoreGame
       }
     }
 
-    public Life()
+    public Life(DungenonTilesetII0x72Loader content)
     {
       this.spriteRenderer = new SpriteRenderer();
       AddComponent(this.spriteRenderer);
-    }
 
-    public void LoadContent(DungenonTilesetII0x72Loader content)
-    {
       this.texture = content.Texture;
       this.heartFullSpriteCoordinates = content.TryGetSpriteCoordinates("ui_heart_full")[0];
       this.heartHalfSpriteCoordinates = content.TryGetSpriteCoordinates("ui_heart_half")[0];

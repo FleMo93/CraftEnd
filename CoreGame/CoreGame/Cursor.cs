@@ -9,18 +9,14 @@ namespace CraftEnd.CoreGame
   {
     private Camera camera;
 
-    public Cursor(): base()
-    {
-      this.Scale = new Vector2(0.5f, 0.5f);
-    }
-
-    public void LoadContent(Texture2D cursor, Camera camera)
+    public Cursor(Texture2D cursor, Camera camera) : base()
     {
       var sprite = new SpriteStatic(this, cursor);
       var renderer = new SpriteRenderer();
       renderer.Sprites.Add(sprite);
       this.AddComponent(renderer);
       this.camera = camera;
+      this.Scale = new Vector2(0.5f, 0.5f);
     }
 
     public override void Update(GameTime gameTime)

@@ -1,18 +1,30 @@
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CraftEnd.Engine
 {
-  public partial class Entity
+  public partial class Entity : IEnumerable<Entity>
   {
     public static List<Entity> Entities = new List<Entity>();
 
     public readonly string Name;
-    public List<Entity> Children = new List<Entity>();
+    internal List<Entity> Children = new List<Entity>();
     public Vector3 Position = new Vector3(0, 0, 0);
     public Vector2 Scale = new Vector2(1, 1);
+    private bool _active = true;
+    public bool Active
+    {
+      get
+      {
+        return this._active;
+      }
+      set
+      {
+
+      }
+    }
     internal List<Component> Components = new List<Component>();
 
     public Entity(string name = "")
@@ -21,14 +33,15 @@ namespace CraftEnd.Engine
       Entities.Add(this);
     }
 
-    public virtual void Initialize() { }
-    public virtual void LoadContent(ContentManager content) { }
     public virtual void Update(GameTime gameTime)
     {
+      if (!Active) { return; }
       this.Components.ForEach(component => component.Update(gameTime));
     }
+
     internal virtual void Draw(GameTime gameTime, Camera camera, SpriteBatch spriteBatch)
     {
+      if (!Active) { return; }
       this.Components.ForEach(component => component.Draw(gameTime, camera, spriteBatch));
     }
 
@@ -44,6 +57,21 @@ namespace CraftEnd.Engine
     public virtual void Destroy()
     {
       this.Components.ForEach(c => c.Destroy());
+    }
+  
+    public void SetParent(Entity entity)
+    {
+      entity.Children.Add(entity);
+    }
+
+    public IEnumerator<Entity> GetEnumerator()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      throw new System.NotImplementedException();
     }
   }
 }

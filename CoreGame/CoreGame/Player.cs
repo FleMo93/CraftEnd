@@ -13,7 +13,7 @@ namespace CraftEnd.CoreGame
     private float speed = 1;
     private Rigidbody rigidbody;
 
-    public void LoadContent(DungenonTilesetII0x72Loader content, Texture2D characterShadow)
+    public Player(DungenonTilesetII0x72Loader content, Texture2D characterShadow)
     {
       var spriteRenderer = new SpriteRenderer();
       this.AddComponent(spriteRenderer);

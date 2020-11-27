@@ -12,7 +12,7 @@ namespace CraftEnd.CoreGame
         foreach (var mapTile in layer.Value)
         {
           var tile = new LevelTile(mapTile, map.TextureAtlas);
-          this.Children.Add(tile);
+          tile.SetParent(this);
         }
       }
     }

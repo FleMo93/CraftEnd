@@ -1,5 +1,7 @@
-﻿using CraftEnd.CoreGame;
+﻿using System.Linq;
+using CraftEnd.CoreGame;
 using CraftEnd.CoreGame.Content.Loader;
+using CraftEnd.CoreGame.Debug;
 using CraftEnd.Engine;
 using CraftEnd.Engine.Physics;
 using Microsoft.Xna.Framework;
@@ -14,7 +16,7 @@ namespace CraftEnd
     private Player player;
     private Camera camera;
     private Cursor cursor;
-    private PositionAxis positionAxis;
+    private RaycastVisualizer raycastVisualizer;
 
     public Game1()
     {
@@ -23,17 +25,10 @@ namespace CraftEnd
       _graphics.PreferredBackBufferHeight = 800;
       Content.RootDirectory = "Content";
       IsMouseVisible = true;
-
-      this.player = new Player();
-      this.player.Position = new Vector3(2, 2, 0);
-      this.cursor = new Cursor();
-      this.positionAxis = new PositionAxis();
     }
 
     protected override void Initialize()
     {
-      Entity.Entities.ForEach((Entity entity) => entity.Initialize());
-
       base.Initialize();
       IsMouseVisible = false;
     }
@@ -49,27 +44,31 @@ namespace CraftEnd
       var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
       var devLevel = new Level(devLevelMap);
       this.camera.AddEntity(devLevel);
-      devLevel.Children.ForEach(t => this.camera.AddEntity(t));
-
-      this.camera.AddEntity(this.player);
-      this.camera.AddEntity(this.positionAxis);
-      Entity.Entities.ForEach((Entity entity) => entity.LoadContent(Content));
+      devLevel.ToList().ForEach(t => this.camera.AddEntity(t));
 
       var dungeonTileSet0x72Loader = new DungenonTilesetII0x72Loader();
       dungeonTileSet0x72Loader.LoadContent(Content);
 
-      var characterShadow = Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCharacterShadow);
-      this.player.LoadContent(dungeonTileSet0x72Loader, characterShadow);
+      this.player = new Player(
+        dungeonTileSet0x72Loader,
+        Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCharacterShadow));
+      this.player.Position = new Vector3(2, 2, 0);
+      this.camera.AddEntity(this.player);
 
       var guiCamera = new Camera(_graphics, GraphicsDevice);
       guiCamera.Zoom = 60;
-      var uiLife = new Life();
+
+      var uiLife = new Life(dungeonTileSet0x72Loader);
       guiCamera.AddEntity(uiLife);
-      uiLife.LoadContent(dungeonTileSet0x72Loader);
       uiLife.NumberOfHearts = 5;
       uiLife.Position = new Vector3(0.1f, 0, 0);
+
+      this.cursor = new Cursor(Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCursor), guiCamera);
       guiCamera.AddEntity(this.cursor);
-      this.cursor.LoadContent(Content.Load<Texture2D>(CraftEnd.CoreGame.Content.Content.Texture2DCursor), guiCamera);
+
+      this.raycastVisualizer = new RaycastVisualizer();
+      this.camera.AddEntity(this.raycastVisualizer);
+      this.raycastVisualizer.ToList().ForEach(t => this.camera.AddEntity(t));
     }
 
     protected override void Update(GameTime gameTime)
@@ -91,13 +90,12 @@ namespace CraftEnd
         Vector2.Distance(startPosition, endPosition),
         out hit))
       {
-        this.positionAxis.Position.X = hit.Point.X;
-        this.positionAxis.Position.Y = hit.Point.Y;
+        // raycastVisualizer.Active = true;
+        raycastVisualizer.UpdatePosition(startPosition, endPosition, hit);
       }
       else
       {
-        this.positionAxis.Position.X = float.MaxValue;
-        this.positionAxis.Position.Y = float.MaxValue;
+        raycastVisualizer.Active = false;
       }
 
       base.Update(gameTime);
