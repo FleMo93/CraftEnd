@@ -1,10 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CraftEnd.Engine
 {
+  // public class EntityEnum : IEnumerator<Entity>
+  // {
+
+  //   Entity IEnumerator<Entity>.Current
+  //   {
+  //     get
+  //     {
+  //       return this.entities[position];
+  //     }
+  //   }
+
+  //   public object Current
+  //   {
+  //     get
+  //     {
+  //       return this.entities[position];
+  //     }
+  //   }
+
+  //   public Entity[] entities;
+  //   private int position = -1;
+
+  //   public EntityEnum(Entity[] entities)
+  //   {
+  //     this.entities = entities;
+  //   }
+
+  //   public bool MoveNext()
+  //   {
+  //     position++;
+  //     return (position < this.entities.Length);
+  //   }
+
+  //   public void Reset()
+  //   {
+  //     this.position = -1;
+  //   }
+
+  //   public void Dispose()
+  //   {
+  //     entities = null;
+  //   }
+  // }
+
   public partial class Entity : IEnumerable<Entity>
   {
     public static List<Entity> Entities = new List<Entity>();
@@ -58,20 +103,20 @@ namespace CraftEnd.Engine
     {
       this.Components.ForEach(c => c.Destroy());
     }
-  
-    public void SetParent(Entity entity)
+
+    public void SetParent(Entity parent)
     {
-      entity.Children.Add(entity);
+      parent.Children.Add(this);
     }
 
     public IEnumerator<Entity> GetEnumerator()
     {
-      throw new System.NotImplementedException();
+      return ((IEnumerable<Entity>)Children).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-      throw new System.NotImplementedException();
+      return ((IEnumerable)Children).GetEnumerator();
     }
   }
 }

@@ -44,7 +44,9 @@ namespace CraftEnd
       var devLevelMap = new TiledMap(CraftEnd.CoreGame.Content.Content.FilePathTiledLevelDev, tiledTileSet);
       var devLevel = new Level(devLevelMap);
       this.camera.AddEntity(devLevel);
-      devLevel.ToList().ForEach(t => this.camera.AddEntity(t));
+
+      foreach (var child in devLevel)
+        this.camera.AddEntity(child);
 
       var dungeonTileSet0x72Loader = new DungenonTilesetII0x72Loader();
       dungeonTileSet0x72Loader.LoadContent(Content);
@@ -68,7 +70,9 @@ namespace CraftEnd
 
       this.raycastVisualizer = new RaycastVisualizer();
       this.camera.AddEntity(this.raycastVisualizer);
-      this.raycastVisualizer.ToList().ForEach(t => this.camera.AddEntity(t));
+
+      foreach (var entity in this.raycastVisualizer)
+        this.camera.AddEntity(entity);
     }
 
     protected override void Update(GameTime gameTime)
