@@ -94,7 +94,7 @@ namespace CraftEnd
         Vector2.Distance(startPosition, endPosition),
         out hit))
       {
-        // raycastVisualizer.Active = true;
+        raycastVisualizer.Active = true;
         raycastVisualizer.UpdatePosition(startPosition, endPosition, hit);
       }
       else

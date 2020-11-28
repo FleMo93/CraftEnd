@@ -58,16 +58,19 @@ namespace CraftEnd.Engine
     internal List<Entity> Children = new List<Entity>();
     public Vector3 Position = new Vector3(0, 0, 0);
     public Vector2 Scale = new Vector2(1, 1);
+    public Entity Parent = null;
     private bool _active = true;
     public bool Active
     {
       get
       {
-        return this._active;
+        return this.Parent != null ?
+          this.Parent.Active && this._active :
+          this._active;
       }
       set
       {
-
+        this._active = value;
       }
     }
     internal List<Component> Components = new List<Component>();
@@ -106,7 +109,14 @@ namespace CraftEnd.Engine
 
     public void SetParent(Entity parent)
     {
+      if (this.Parent == parent)
+        return;
+
+      if (this.Parent != null && !this.Parent.Children.Remove(this))
+        throw new System.Exception("Could not remove child");
+
       parent.Children.Add(this);
+      this.Parent = parent;
     }
 
     public IEnumerator<Entity> GetEnumerator()
