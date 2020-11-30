@@ -1,3 +1,4 @@
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace CraftEnd.Engine.Physics
@@ -96,16 +97,21 @@ namespace CraftEnd.Engine.Physics
       return false;
     }
 
-    public static bool Cast(Vector2 position, Vector2 direction, float distance, out RaycastHit hit)
+    public static bool Cast(Vector2 position, Vector2 direction, float distance, out RaycastHit hit, params int[] ignoreLayers)
     {
       hit = null;
       foreach (var collider in Collider.Colliders)
       {
+        if (ignoreLayers.Length > 0 && !ignoreLayers.Contains(collider.Layer))
+          continue;
+
         if (collider.GetType() == typeof(BoxCollider))
         {
           RaycastHit tmpHit = null;
-          if (Cast(position, direction, distance, collider as BoxCollider, out tmpHit)) {
-            if (hit == null || tmpHit.Distance < hit.Distance) {
+          if (Cast(position, direction, distance, collider as BoxCollider, out tmpHit))
+          {
+            if (hit == null || tmpHit.Distance < hit.Distance)
+            {
               hit = tmpHit;
             }
           }

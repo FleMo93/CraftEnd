@@ -24,6 +24,8 @@ namespace CraftEnd
       _graphics.PreferredBackBufferWidth = 800;
       _graphics.PreferredBackBufferHeight = 800;
       Content.RootDirectory = "Content";
+      Layer.SetCollision(0, true, 0);
+      Layer.SetCollision(1, true, 0, 1);
       IsMouseVisible = true;
     }
 
@@ -92,7 +94,7 @@ namespace CraftEnd
         startPosition,
         Vector2.Normalize(endPosition - startPosition),
         Vector2.Distance(startPosition, endPosition),
-        out hit))
+        out hit, 1))
       {
         raycastVisualizer.Active = true;
         raycastVisualizer.UpdatePosition(startPosition, endPosition, hit);

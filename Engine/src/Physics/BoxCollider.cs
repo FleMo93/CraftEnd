@@ -42,7 +42,7 @@ namespace CraftEnd.Engine.Physics
 
     private Texture2D boundingTexture = null;
 
-    public BoxCollider(Vector2 size, Vector2 position)
+    public BoxCollider(int layer, Vector2 size, Vector2 position) : base(layer)
     {
       this.Size = size;
       this.Position = position;

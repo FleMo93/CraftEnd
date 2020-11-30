@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace CraftEnd.Engine.Physics
@@ -7,6 +8,7 @@ namespace CraftEnd.Engine.Physics
   public class Collider : Component
   {
     public Rigidbody Rigidbody { get; internal set; }
+    public int Layer { get; private set; }
 
     internal static List<Collider> Colliders;
     static Collider()
@@ -36,9 +38,13 @@ namespace CraftEnd.Engine.Physics
       return true;
     }
 
-    public Collider()
+    public Collider(int layer)
     {
       Collider.Colliders.Add(this);
+      if (!Physics.Layer.CollisionMatrix.ContainsKey(layer))
+        throw new Exception("Layer number on collision matrix missing");
+
+      this.Layer = layer;
     }
 
     public IEnumerable<Collision> GetCollsions()
@@ -46,7 +52,7 @@ namespace CraftEnd.Engine.Physics
       List<Collision> collisionList = new List<Collision>();
       foreach (var collider in Collider.Colliders)
       {
-        if (collider == this)
+        if (!Physics.Layer.CollisionMatrix[Layer][collider.Layer] || collider == this)
           continue;
 
         if (Collider.IsColliding(this, collider))

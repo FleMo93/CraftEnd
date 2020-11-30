@@ -7,7 +7,7 @@ namespace CraftEnd.CoreGame
 {
   public class LevelTile : Entity
   {
-    public LevelTile(Content.Loader.MapTile mapTile, Texture2D mapTextureAtlas): base()
+    public LevelTile(Content.Loader.MapTile mapTile, Texture2D mapTextureAtlas) : base()
     {
       this.Position = mapTile.Position;
       var spriteRenderer = new SpriteRenderer();
@@ -35,7 +35,7 @@ namespace CraftEnd.CoreGame
       spriteRenderer.Sprites.Add(sprite);
 
       foreach (var boxColliderDefinition in mapTile.TilesetTile.BoxColiderDefinitions)
-        this.AddComponent(new Engine.Physics.BoxCollider(
+        this.AddComponent(new Engine.Physics.BoxCollider(1,
           boxColliderDefinition.Size,
           boxColliderDefinition.Position - new Vector2(0.5f, 1) - new Vector2(0, mapTile.YOffset)));
     }

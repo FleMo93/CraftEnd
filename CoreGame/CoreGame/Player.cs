@@ -45,7 +45,7 @@ namespace CraftEnd.CoreGame
       spriteRenderer.Sprites.Add(shadowSprite);
       spriteRenderer.Sprites.Add(characterAnimator);
 
-      var collider = new BoxCollider(new Vector2(1, 0.4f), new Vector2(-0.5f, -0.4f));
+      var collider = new BoxCollider(0, new Vector2(1, 0.4f), new Vector2(-0.5f, -0.4f));
       this.AddComponent(collider);
       this.AddComponent(this.rigidbody = new Rigidbody(collider));
     }

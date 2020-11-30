@@ -8,7 +8,7 @@ namespace CraftEnd.CoreGame
   {
     public EmptyCollider(string name) : base(name)
     {
-      var collider = new BoxCollider(new Vector2(10, 10), new Vector2(-5, -5));
+      var collider = new BoxCollider(0, new Vector2(10, 10), new Vector2(-5, -5));
       this.AddComponent(collider);
     }
   }
