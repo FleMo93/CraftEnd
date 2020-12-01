@@ -18,8 +18,8 @@ namespace CraftEnd.Engine
     {
       get
       {
-        var matrix = Matrix.CreateTranslation(-new Vector3(this.Position.X, this.Position.Y, 0.0f)) *
-          Matrix.CreateRotationZ(0) *
+        var matrix = Matrix.CreateTranslation(-new Vector3(this.Position.X, this.Position.Y, 0)) *
+          // Matrix.CreateRotationZ(0) *
           Matrix.CreateScale(this.Zoom, this.Zoom, 1);
 
         switch (this.RenderPivot)
@@ -51,7 +51,10 @@ namespace CraftEnd.Engine
 
     internal void Draw(GameTime gameTime)
     {
-      spriteBatch.Begin(transformMatrix: this.transformMatrix, samplerState: SamplerState.PointClamp);
+      spriteBatch.Begin(
+        transformMatrix: this.transformMatrix,
+        samplerState: SamplerState.PointClamp,
+        sortMode: SpriteSortMode.Deferred);
 
       foreach (var entity in this._entities.OrderBy(e => e.Position.Z).ThenBy(e => e.Position.Y))
         entity.Draw(gameTime, this, spriteBatch);

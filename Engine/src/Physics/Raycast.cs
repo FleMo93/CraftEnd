@@ -35,16 +35,19 @@ namespace CraftEnd.Engine.Physics
       var tr = IsInFront(position, direction, collider.TopRight);
       var bl = IsInFront(position, direction, collider.BottomLeft);
       var br = IsInFront(position, direction, collider.BottomRight);
-      hit = new RaycastHit();
+      hit = null;
 
       Vector2? intersect = null;
       if (tl || tr)
       {
         if (LineToLineIntersect(collider.TopLeft, collider.TopRight, position, position + direction * distance, out intersect))
         {
-          hit.Collider = collider;
-          hit.Distance = Vector2.Distance(position, intersect.Value);
-          hit.Point = intersect.Value;
+          hit = new RaycastHit
+          {
+            Collider = collider,
+            Distance = Vector2.Distance(position, intersect.Value),
+            Point = intersect.Value
+          };
           return true;
         }
       }
@@ -54,11 +57,14 @@ namespace CraftEnd.Engine.Physics
         if (LineToLineIntersect(collider.TopRight, collider.BottomRight, position, position + direction * distance, out intersect))
         {
           float hitDistance = Vector2.Distance(position, intersect.Value);
-          if (hitDistance < hit.Distance)
+          if (hit == null || hitDistance < hit.Distance)
           {
-            hit.Collider = collider;
-            hit.Distance = hitDistance;
-            hit.Point = intersect.Value;
+            hit = new RaycastHit
+            {
+              Collider = collider,
+              Distance = Vector2.Distance(position, intersect.Value),
+              Point = intersect.Value
+            };
             return true;
           }
         }
@@ -69,11 +75,14 @@ namespace CraftEnd.Engine.Physics
         if (LineToLineIntersect(collider.BottomRight, collider.BottomLeft, position, position + direction * distance, out intersect))
         {
           float hitDistance = Vector2.Distance(position, intersect.Value);
-          if (hitDistance < hit.Distance)
+          if (hit == null || hitDistance < hit.Distance)
           {
-            hit.Collider = collider;
-            hit.Distance = hitDistance;
-            hit.Point = intersect.Value;
+            hit = new RaycastHit
+            {
+              Collider = collider,
+              Distance = Vector2.Distance(position, intersect.Value),
+              Point = intersect.Value
+            };
             return true;
           }
         }
@@ -84,11 +93,14 @@ namespace CraftEnd.Engine.Physics
         if (LineToLineIntersect(collider.BottomLeft, collider.TopLeft, position, position + direction * distance, out intersect))
         {
           float hitDistance = Vector2.Distance(position, intersect.Value);
-          if (hitDistance < hit.Distance)
+          if (hit == null || hitDistance < hit.Distance)
           {
-            hit.Collider = collider;
-            hit.Distance = hitDistance;
-            hit.Point = intersect.Value;
+            hit = new RaycastHit
+            {
+              Collider = collider,
+              Distance = Vector2.Distance(position, intersect.Value),
+              Point = intersect.Value
+            };
             return true;
           }
         }

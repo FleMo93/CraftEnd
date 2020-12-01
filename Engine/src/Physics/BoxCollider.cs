@@ -5,7 +5,7 @@ namespace CraftEnd.Engine.Physics
 {
   public class BoxCollider : Collider
   {
-    public bool RenderBounds { get; set; } = false;
+    public bool RenderBounds { get; set; } = true;
     public Vector2 Size { get; set; }
     public Vector2 Position { get; set; }
     public Vector2 TopLeft
@@ -85,7 +85,7 @@ namespace CraftEnd.Engine.Physics
           this.Entity.Position.Y + this.Position.Y),
         null, Color.LimeGreen, 0, new Vector2(0, 0),
         new Vector2(0.1f, 0.1f),
-        SpriteEffects.None, 1);
+        SpriteEffects.None, 0);
       base.Draw(gameTime, camera, spriteBatch);
     }
   }

@@ -41,7 +41,7 @@ namespace CraftEnd.Engine
       {
         _spriteBatch.Begin();
         _spriteBatch.Draw(_debugBackground, _debugBackgroundPosition, Color.White);
-        _spriteBatch.DrawString(_debugFont, "Frametime: " + gameTime.ElapsedGameTime.TotalSeconds, new Vector2(1, 1), Color.White, 0, new Vector2(0, 0), 1, new SpriteEffects(), 1);
+        _spriteBatch.DrawString(_debugFont, "Frametime: " + gameTime.ElapsedGameTime.TotalSeconds, new Vector2(1, 1), Color.White, 0, new Vector2(0, 0), 1, new SpriteEffects(), 0);
         _spriteBatch.End();
       }
     }
