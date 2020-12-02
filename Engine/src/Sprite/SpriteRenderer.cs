@@ -41,7 +41,7 @@ namespace CraftEnd.Engine
         }
 
         x += t.OffsetPosition.X;
-        y += -t.OffsetPosition.Y;
+        y += t.OffsetPosition.Y;
 
         var width = 1f * t.Entity.Scale.X * t.Scale.X / (t.SpriteCoordinates.HasValue ? t.SpriteCoordinates.Value.Width : t.Texture.Width);
         var height = 1f * t.Entity.Scale.Y * t.Scale.Y / (t.SpriteCoordinates.HasValue ? t.SpriteCoordinates.Value.Height : t.Texture.Height);

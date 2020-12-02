@@ -66,6 +66,8 @@ namespace CraftEnd.CoreGame.Content.Loader
       public Properties Properties { get; set; }
       [XmlAttribute(AttributeName = "width")]
       public string Width { get; set; }
+      [XmlAttribute(AttributeName = "visible")]
+      public string Visible { get; set; }
     }
 
     [XmlRoot(ElementName = "map")]
@@ -159,6 +161,8 @@ namespace CraftEnd.CoreGame.Content.Loader
 
       tiledTmx.Layer.ForEach(layer =>
       {
+        if (layer != null && layer.Visible == "0")
+          return;
         var currentLayer = new List<MapTile>();
         Layers.Add(layer.Name, currentLayer);
         var layerOffsetX = layer.Offsetx != null ? int.Parse(layer.Offsetx, System.Globalization.NumberStyles.Integer) : 0;

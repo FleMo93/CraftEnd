@@ -10,6 +10,8 @@ namespace CraftEnd.CoreGame
     public LevelTile(Content.Loader.MapTile mapTile, Texture2D mapTextureAtlas) : base()
     {
       this.Position = mapTile.Position;
+      this.Position.Y = this.Position.Y + mapTile.YOffset;
+
       var spriteRenderer = new SpriteRenderer();
       this.AddComponent(spriteRenderer);
       Sprite sprite;
@@ -30,8 +32,7 @@ namespace CraftEnd.CoreGame
         sprite = new SpriteStatic(this, mapTextureAtlas, mapTile.TilesetTile.Rectangle, null, RenderPivot.BottomCenter);
       }
 
-      sprite.OffsetPosition = new Vector2(0, mapTile.YOffset);
-      this.Position = new Vector3(this.Position.X, this.Position.Y + mapTile.YOffset, this.Position.Z);
+      sprite.OffsetPosition = new Vector2(0, -mapTile.YOffset);
       spriteRenderer.Sprites.Add(sprite);
 
       foreach (var boxColliderDefinition in mapTile.TilesetTile.BoxColiderDefinitions)
