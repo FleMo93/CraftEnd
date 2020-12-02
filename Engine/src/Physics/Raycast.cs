@@ -48,7 +48,6 @@ namespace CraftEnd.Engine.Physics
             Distance = Vector2.Distance(position, intersect.Value),
             Point = intersect.Value
           };
-          return true;
         }
       }
 
@@ -65,7 +64,6 @@ namespace CraftEnd.Engine.Physics
               Distance = Vector2.Distance(position, intersect.Value),
               Point = intersect.Value
             };
-            return true;
           }
         }
       }
@@ -83,7 +81,6 @@ namespace CraftEnd.Engine.Physics
               Distance = Vector2.Distance(position, intersect.Value),
               Point = intersect.Value
             };
-            return true;
           }
         }
       }
@@ -101,12 +98,11 @@ namespace CraftEnd.Engine.Physics
               Distance = Vector2.Distance(position, intersect.Value),
               Point = intersect.Value
             };
-            return true;
           }
         }
       }
 
-      return false;
+      return hit != null;
     }
 
     public static bool Cast(Vector2 position, Vector2 direction, float distance, out RaycastHit hit, params int[] ignoreLayers)
