@@ -5,7 +5,7 @@ namespace CraftEnd.Engine.Physics
 {
   public class BoxCollider : Collider
   {
-    public bool RenderBounds { get; set; } = true;
+    public bool RenderBounds { get; set; } = false;
     public Vector2 Size { get; set; }
     public Vector2 Position { get; set; }
     public Vector2 TopLeft

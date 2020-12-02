@@ -7,8 +7,8 @@ namespace CraftEnd
     [STAThread]
     static void Main()
     {
-      using (var game = new Game1())
-        game.Run();
+      using (var engine = new Engine.PenguinEngine(typeof(CraftEnd), CoreGame.Content.Content.Texture2DCoordinateAxis))
+        engine.Run();
     }
   }
 }

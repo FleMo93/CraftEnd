@@ -15,7 +15,7 @@ namespace CraftEnd.Engine
     private static SpriteBatch _spriteBatch;
     internal static Texture2D DebugPositionTexture { get; private set; }
 
-    public static void LoadContent(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, Texture2D debugPositionTexture = null, SpriteFont debugFont = null)
+    internal static void LoadContent(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, Texture2D debugPositionTexture = null, SpriteFont debugFont = null)
     {
       _graphicsDevice = graphicsDevice;
       _graphicsDeviceManager = graphicsDeviceManager;
@@ -32,7 +32,7 @@ namespace CraftEnd.Engine
       DebugPositionTexture = debugPositionTexture;
     }
 
-    public static void Draw(GameTime gameTime)
+    internal static void Draw(GameTime gameTime)
     {
       _graphicsDevice.Clear(Color.Black);
       Camera.Cameras.ForEach(r => r.Draw(gameTime));

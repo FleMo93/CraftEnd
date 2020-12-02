@@ -84,13 +84,25 @@ namespace CraftEnd.Engine
     public virtual void Update(GameTime gameTime)
     {
       if (!Active) { return; }
-      this.Components.ForEach(component => component.Update(gameTime));
+      this.Components.ForEach(component =>
+      {
+        if (!component.Active)
+          return;
+
+        component.Update(gameTime);
+      });
     }
 
     internal virtual void Draw(GameTime gameTime, Camera camera, SpriteBatch spriteBatch)
     {
       if (!Active) { return; }
-      this.Components.ForEach(component => component.Draw(gameTime, camera, spriteBatch));
+      this.Components.ForEach(component =>
+      {
+        if (!component.Active)
+          return;
+
+        component.Draw(gameTime, camera, spriteBatch);
+      });
     }
 
     public virtual void AddComponent(Component component)

@@ -20,7 +20,10 @@ namespace CraftEnd.Engine
       {
         var matrix = Matrix.CreateTranslation(-new Vector3(this.Position.X, this.Position.Y, 0)) *
           // Matrix.CreateRotationZ(0) *
-          Matrix.CreateScale(this.Zoom, this.Zoom, 1);
+          Matrix.CreateScale(
+            _graphicsDeviceManager.PreferredBackBufferHeight / this.Zoom,
+            _graphicsDeviceManager.PreferredBackBufferHeight / this.Zoom,
+            1);
 
         switch (this.RenderPivot)
         {

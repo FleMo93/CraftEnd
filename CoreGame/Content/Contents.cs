@@ -10,5 +10,6 @@ namespace CraftEnd.CoreGame.Content
     public static string Texture2DCharacterShadow { get; } = "MyContent/CharacterShadow";
     public static string Texture2DCoordinateAxis { get; } = "MyContent/CoordinateAxis";
     public static string Texture2DCursor { get; } = "MyContent/Cursor";
+    public static string Texture2DInventoryTile { get; } = "MyContent/InventoryTile";
   }
 }
